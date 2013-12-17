@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/d33tah/forgottenserv/eksperymenty/tibiaproxy/tibiaproxy'
+let g:netrw_dirhist_2='/tmp/AIProj3/AIProj3.Lib'
+let g:netrw_dirhist_3='/mnt/sda9/fingermatch/d33tah/fingermatch/nmap/fingermatch/country-research/python-iptools/iptools'
+let g:netrw_dirhist_4='/mnt/sda/d33tah/fingermatch/preferred/by-name/profound-rdns/new_structure'
+let g:netrw_dirhist_5='/mnt/sda/d33tah/fingermatch/preferred/by-name/profound-rdns-meta/rematch/new_structure'
+let g:netrw_dirhist_6='/mnt/sda/d33tah/workspace/forgottenserver/tibiaproxy/test'

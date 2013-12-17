@@ -1,0 +1,2 @@
+escape ^xx
+bindkey ^Ad detach
