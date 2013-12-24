@@ -4,3 +4,7 @@
 [user]
 	email = d33tah@gmail.com
 	name = Jacek Wielemborek
+
+[alias]
+	spush = !sh -c \"git push || git pull --rebase && git push\"
+	spull = !sh -c \"git stash && git pull --rebase && git stash pop\"
