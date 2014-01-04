@@ -20,7 +20,7 @@ set runtimepath+=$HOME/.vim/vim-l9
 set runtimepath+=$HOME/.vim/neocomplcache
 
 
-let g:neocomplcache_enable_at_startup = 1 
+let g:neocomplcache_enable_at_startup = 1
 
 set viminfo='100000,"100000
 
