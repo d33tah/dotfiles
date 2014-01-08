@@ -1,8 +1,6 @@
 export PYTHONIOENCODING=utf-8
 setopt NO_BEEP
 
-RM=`which rm`
-function rm { if [ "$1" == "-rf" -a "$2" == "/" ]; then cowsay "No wai"; else $RM $@; fi }
 
 PATH=$HOME/bin:$PATH
 
