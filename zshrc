@@ -41,6 +41,7 @@ local PINK=$'%{\e[0;35m%}'
 local CYAN=$'%{\e[0;36m%}'
 local GREY=$'%{\e[1;30m%}'
 local NORMAL=$'%{\e[0m%}'
+local BLINK=$'%{\e[0;5m%}'
 
 # completion
 autoload -U complist compinit promptinit tetris zcalc url-quote-magic colors
@@ -109,22 +110,8 @@ zle -N no-magic-abbrev-expand
 #bindkey " " magic-abbrev-expand
 bindkey "^x " no-magic-abbrev-expand
 
-#exporting prompt
-if [[ ${UID} == "0" ]]; then
-	promptinit 
-	prompt gentoo
-	#export PS1="$(print "${NORMAL}[${GREEN}%M${NORMAL}][${YELLOW}%~${NORMAL}]${RED} %(!.#.$) ${NORMAL}")"
-else
-	if [[ ${HOST} == "kolos" ]]; then
-		#export PS1="$(print "${GREY}[${YELLOW}%~${GREY}]${YELLOW} %(!.#.$) ${NORMAL}")"
-		#export PS1="$(print "${BLUE}[${GREEN}%~${BLUE}]${GREEN} %(!.#.$) ${NORMAL}")"
-		#export PS1="$(print "${YELLOW}[${RED}%~${YELLOW}]${RED} %(!.#.$) ${NORMAL}")"
-		#export PS1="$(print "${GREEN} %(!.#.>) ${NORMAL}")"
-		export PS1="$(print "${RED}%(!.#.>) ${NORMAL}")"
-	else
-		export PS1="$(print "${GREY}[${YELLOW}%M${GREY}][${YELLOW}%~${GREY}]${YELLOW} %(!.#.$) ${NORMAL}")"
-	fi
-fi
+local COLOR=${YELLOW}
+export PS1="$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
