@@ -22,9 +22,9 @@ bindkey "5D" backward-word
 
 if false; then
 #if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
-	if [[ $TERM != screen ]] && ! screen -x -SU main; then
-	screen -SU main
-	fi
+    if [[ $TERM != screen ]] && ! screen -x -SU main; then
+    screen -SU main
+    fi
 fi
 
 #if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
@@ -60,14 +60,14 @@ zstyle ':completion:*:options' auto-description '%d'
 zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/)CVS'
 zstyle ':completion:*:cd:*' ignored-patterns '(*/)#CVS'
 
-zle '-N' tetris 
+zle '-N' tetris
 zle '-N' url-quote-magic
 bindkey '^T' tetris
 bindkey "\e" backward-delete-word
 bindkey '^R' history-incremental-search-backward
 export WORDCHARS='*?_[]~\!#$%^<>|`@#$%^*()+?'
 
-setopt notify correct 
+setopt notify correct
 setopt correctall autocd
 setopt short_loops
 setopt nohup
@@ -155,18 +155,18 @@ alias -g G="| grep"
 #zstyle ':completion:*' users $users
 
 if [[ -f ~/.ssh/known_hosts ]]; then
-	_myhosts=(${${${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*}#\[}/]:*/})
-	zstyle ':completion:*' hosts $_myhosts
+    _myhosts=(${${${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*}#\[}/]:*/})
+    zstyle ':completion:*' hosts $_myhosts
 fi
 
 
 #colors
 if [[ -f ~/.dir_colors ]]; then
-	    eval `dircolors -b ~/.dir_colors`
+        eval `dircolors -b ~/.dir_colors`
 else
-	if [[ -f /etc/DIR_COLORS ]]; then
-	    eval `dircolors -b /etc/DIR_COLORS`
-	fi
+    if [[ -f /etc/DIR_COLORS ]]; then
+        eval `dircolors -b /etc/DIR_COLORS`
+    fi
 fi
 
 #umask 022
@@ -177,16 +177,16 @@ WATCHFMT="User %n has %a on tty %l at %T %W"
 
 # Display path in titlebar of terms.
 [[ -t 1 ]] || return
-	case $TERM in
-	        *xterm*|*rxvt*|(dt|k|E)term)
-	    	precmd() {
-	                print -Pn "\e]2;[%n] : [%m] : [%~]\a"
-	            }
-		preexec() {
-		    print -Pn "\e]2;[%n] : [%m] : [%~] : [ $1 ]\a"
-	        }
-	;;
-	esac
+    case $TERM in
+            *xterm*|*rxvt*|(dt|k|E)term)
+            precmd() {
+                    print -Pn "\e]2;[%n] : [%m] : [%~]\a"
+                }
+        preexec() {
+            print -Pn "\e]2;[%n] : [%m] : [%~] : [ $1 ]\a"
+            }
+    ;;
+    esac
 
 # History
 export HISTSIZE=500000
@@ -201,7 +201,7 @@ bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 
 case $TERM in (xterm*)
-	    bindkey "\e[H" beginning-of-line
-	    bindkey "\e[F" end-of-line
+        bindkey "\e[H" beginning-of-line
+        bindkey "\e[F" end-of-line
 esac
 bindkey "\e[3~" delete-char
