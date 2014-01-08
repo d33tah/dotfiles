@@ -13,7 +13,6 @@ if [[ $TERM == screen ]]; then
 echo "Jestes w screenie"
 fi
 
-export PYTHONPATH=/home/d33tah/lib/python2.5/site-packages
 export LC_ALL=en_US.UTF-8
 
 bindkey "5C" forward-word
