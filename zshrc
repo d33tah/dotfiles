@@ -18,7 +18,9 @@ export LC_ALL=en_US.UTF-8
 bindkey "5C" forward-word
 bindkey "5D" backward-word
 
-#source ~/.github-token
+if [ -f ~/.github-token ]; then
+  source ~/.github-token
+fi
 
 if false; then
 #if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
