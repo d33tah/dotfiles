@@ -125,7 +125,9 @@ alias grep='grep --color=auto'
 alias 7zr=7z
 alias 7zbrute="7zr a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on"
 alias 7zultra="7zr a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on"
-alias psp="ffmpeg -y -i -flags +bitexact -s  400x192 -r 29.97 -b:v 512k -acodec libfaac -b 672k -ab 96k -ar 24000 -f psp -strict -2"
+function psp {
+ffmpeg -y -i $1 -flags +bitexact -s  400x192 -r 29.97 -b:v 512k -acodec libfaac -b 672k -ab 96k -ar 24000 -f psp -strict -2 $1.mp4
+}
 
 alias u='time { sudo emerge --sync && sudo emerge -uDNva world }'
 
