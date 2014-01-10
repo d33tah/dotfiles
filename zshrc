@@ -1,7 +1,6 @@
 export PYTHONIOENCODING=utf-8
 setopt NO_BEEP
 
-
 PATH=$HOME/bin:$PATH
 
 set -o vi
@@ -149,7 +148,6 @@ if [[ -f ~/.ssh/known_hosts ]]; then
     _myhosts=(${${${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*}#\[}/]:*/})
     zstyle ':completion:*' hosts $_myhosts
 fi
-
 
 #colors
 if [[ -f ~/.dir_colors ]]; then
