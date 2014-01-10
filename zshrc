@@ -28,11 +28,6 @@ if false; then
     fi
 fi
 
-#if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
-#screen -SU wrapper -c ~/.screenrc-wrapper screen -SU main
-#fi
-
-
 # Prompt colors
 local RED=$'%{\e[0;31m%}'
 local GREEN=$'%{\e[0;32m%}'
@@ -81,36 +76,6 @@ setopt auto_remove_slash
 setopt short_loops
 unsetopt equals
 
-typeset -A abbreviations
-abbreviations=(
-  "Im"    "| more"
-  "Ia"    "| awk"
-  "Ig"    "| grep"
-  "Ieg"   "| egrep"
-  "Ip"    "| $PAGER"
-  "Ih"    "| head"
-  "It"    "| tail"
-  "Is"    "| sort"
-  "Iw"    "| wc"
-  "Ix"    "| xargs"
-)
-
-magic-abbrev-expand() {
-    local MATCH
-    LBUFFER=${LBUFFER%%(#m)[_a-zA-Z0-9]#}
-    LBUFFER+=${abbreviations[$MATCH]:-$MATCH}
-    zle self-insert
-}
-
-no-magic-abbrev-expand() {
-  LBUFFER+=' '
-}
-
-zle -N magic-abbrev-expand
-zle -N no-magic-abbrev-expand
-#bindkey " " magic-abbrev-expand
-bindkey "^x " no-magic-abbrev-expand
-
 local COLOR=${YELLOW}
 export PS1="$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
 
@@ -135,14 +100,6 @@ alias ds='diffstat'
 #global aliases
 alias -g '...'='../..'
 alias -g '....'='../../..'
-alias -g M="| more"
-alias -g H="| head"
-alias -g T="| tail"
-alias -g G="| grep"
-
-# some variables for openssh
-#users=(cla root ircdwww claudiush clsh odysei)
-#zstyle ':completion:*' users $users
 
 if [[ -f ~/.ssh/known_hosts ]]; then
     _myhosts=(${${${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*}#\[}/]:*/})
