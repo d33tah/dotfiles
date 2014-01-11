@@ -93,8 +93,6 @@ function psp {
 ffmpeg -y -i $1 -flags +bitexact -s  400x192 -r 29.97 -b:v 512k -acodec libfaac -b 672k -ab 96k -ar 24000 -f psp -strict -2 $1.mp4
 }
 
-alias u='time { sudo emerge --sync && sudo emerge -uDNva world }'
-
 alias ds='diffstat'
 
 #global aliases
