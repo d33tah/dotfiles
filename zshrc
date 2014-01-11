@@ -29,15 +29,15 @@ if false; then
 fi
 
 # Prompt colors
-local RED=$'%{\e[0;31m%}'
-local GREEN=$'%{\e[0;32m%}'
-local YELLOW='%{\e[0;33m%}'
-local BLUE=$'%{\e[0;34m%}'
-local PINK=$'%{\e[0;35m%}'
-local CYAN=$'%{\e[0;36m%}'
-local GREY=$'%{\e[1;30m%}'
-local NORMAL=$'%{\e[0m%}'
-local BLINK=$'%{\e[0;5m%}'
+RED=$'%{\e[0;31m%}'
+GREEN=$'%{\e[0;32m%}'
+YELLOW='%{\e[0;33m%}'
+BLUE=$'%{\e[0;34m%}'
+PINK=$'%{\e[0;35m%}'
+CYAN=$'%{\e[0;36m%}'
+GREY=$'%{\e[1;30m%}'
+NORMAL=$'%{\e[0m%}'
+BLINK=$'%{\e[0;5m%}'
 
 # completion
 autoload -U complist compinit promptinit tetris zcalc url-quote-magic colors
