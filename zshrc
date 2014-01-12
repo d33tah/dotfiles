@@ -1,3 +1,5 @@
+local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
+
 export PYTHONIOENCODING=utf-8
 setopt NO_BEEP
 
@@ -77,7 +79,6 @@ setopt auto_remove_slash
 setopt short_loops
 unsetopt equals
 
-local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
 
 if [ "$SALTED_HOSTNAME_MD5" == "793e4a1cceaa5571857b2c3c18955758" ]; then
   local COLOR=${YELLOW}
