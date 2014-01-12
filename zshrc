@@ -23,11 +23,12 @@ if [ -f ~/.github-token ]; then
   source ~/.github-token
 fi
 
-if false; then
-#if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
-    if [[ $TERM != screen ]] && ! screen -x -SU main; then
-    screen -SU main
-    fi
+if [ "$SALTED_HOSTNAME_MD5" != "793e4a1cceaa5571857b2c3c18955758" ]; then
+  if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
+      if [[ $TERM != screen ]] && ! screen -x -SU main; then
+      screen -SU main
+      fi
+  fi
 fi
 
 # Prompt colors
