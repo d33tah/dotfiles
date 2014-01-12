@@ -77,7 +77,16 @@ setopt auto_remove_slash
 setopt short_loops
 unsetopt equals
 
-local COLOR=${YELLOW}
+local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
+
+if [ "$SALTED_HOSTNAME_MD5" == "793e4a1cceaa5571857b2c3c18955758" ]; then
+  local COLOR=${YELLOW}
+fi
+
+if [ "$SALTED_HOSTNAME_MD5" == "77ad4a3076ca39632f7dd5009a60ca7d" ]; then
+  local COLOR=${BRIGHTYELLOW}
+fi
+
 export PS1="$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
 
 #exporting colors
