@@ -26,7 +26,7 @@ fi
 if [ "$SSH_CONNECTION" != "" ]; then
   if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
       if [[ $TERM != screen ]] && ! screen -x -SU main; then
-      screen -SU main
+      screen -c ~/.screenrc-wrapper -SU wrapper screen -SU main
       fi
   fi
 fi
