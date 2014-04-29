@@ -2,7 +2,12 @@ set visualbell t_vb=
 set nostartofline
 colorscheme ron
 syntax on
-set colorcolumn=80
+if v:version > 702
+    set colorcolumn=80
+else
+    highlight LongLine ctermbg=blue guibg=blue
+    :let w:m2=matchadd('LongLine', '\%>80v.\+', -1)
+endif
 set sw=4
 set nu
 set ts=4
