@@ -1,1 +1,2 @@
 \set PROMPT1 '[%`date "+%d/%m/%y %H:%M:%S"`] %/%R%# '
+\timing
