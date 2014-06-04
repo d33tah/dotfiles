@@ -11,5 +11,5 @@
 	c1 = !sh -c \"git log | grep 'commit' | tail -n1 | cut -d' ' -f2 \"
 	d1 = !sh -c \"git diff `git c1`.. \"
 	ds = !sh -c \"git d1 | diffstat \"
-[svn]
-	authorsfile = /home/d33tah/.gitusers
+#[svn]
+#	authorsfile = /home/d33tah/.gitusers
