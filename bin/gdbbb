@@ -1,0 +1,7 @@
+#!/bin/bash
+prog=$1
+shift
+echo gdb "$prog" -ex "break main" -ex "r $*"
+gdb "$prog" -ex "break main" -ex "r $*"
+#exec `which gdb` $1 -ex "r ${1+"$@"}"
+

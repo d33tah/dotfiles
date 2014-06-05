@@ -1,0 +1,14 @@
+#!/usr/bin/python
+
+from collections import defaultdict
+d = defaultdict(int)
+import sys
+while True:
+  l = sys.stdin.readline()
+  if l == '':
+    break
+  d[l.rstrip("\r\n")] += 1
+
+items = reversed(sorted(d.items(), key=lambda x: x[1]))
+for k, v in items:
+  print("%s:\t%s" % (v, k))

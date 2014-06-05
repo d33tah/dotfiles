@@ -22,7 +22,10 @@ def file_exists(path):
 for filename in os.listdir('.'):
     if os.path.abspath(filename) == argv0 or filename.startswith('.'):
         continue
-    target = os.environ['HOME'] + os.sep + '.' + filename
+    if filename != 'bin':
+        target = os.environ['HOME'] + os.sep + '.' + filename
+    else:
+        target = os.environ['HOME'] + os.sep + filename
     print(target)
     if file_exists(target):
         new_target = target + "_"
