@@ -40,13 +40,13 @@ syn match  gcovfunctionNotExecuted    "^function\s\+\w*\s\+called\s\+0.*"
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
-hi def link gcovTag        	        Ignore
+"hi def link gcovTag        	        Ignore
 hi def link gcovTagNameColon            gcovTag
 hi def link gcovTagName    	        Statement
 hi def link gcovTagValue   	        Identifier
 hi def link gcovNotExecuted	        Constant
 hi def link gcovExecuted                Type
-hi def link gcovNoCode		        Ignore
+"hi def link gcovNoCode		        Ignore
 
 hi def link gcovSpecialExecuted         Comment
 hi def link gcovSpecialNotExecuted      Special
