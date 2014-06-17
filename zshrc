@@ -1,4 +1,5 @@
 local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
+export PYTHONRC="$HOME/.pythonrc"
 
 export PYTHONIOENCODING=utf-8
 setopt NO_BEEP
