@@ -44,6 +44,14 @@ GREY=$'%{\e[1;30m%}'
 NORMAL=$'%{\e[0m%}'
 BLINK=$'%{\e[0;5m%}'
 
+function gen_words() {
+    LC_ALL="$1" aspell dump master  | iconv -f latin2 -t utf-8 | cut -d'/' -f1
+};
+
+function gen_pass() {
+    sort -R <( gen_words "pl" ) <( gen_words "en_US" ) | uniq | tail -n30
+}
+
 # completion
 autoload -U complist compinit promptinit tetris zcalc url-quote-magic colors
 compinit
