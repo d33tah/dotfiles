@@ -1,0 +1,8 @@
+#!/bin/bash
+a=0
+b=0
+while read i; do
+  a=$(( $a + $i ))
+  b=$(( b + 1 ))
+done
+echo $(( $a / $b ))
