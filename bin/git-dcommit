@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Runs git svn dcommit, stashing the working tree changes if there are any.
+# Author: Jacek Wielemborek, licensed under WTFPL.
+
+GIT_MODIFIED=0
+
+git diff-index  --quiet --ignore-submodules HEAD -- || GIT_MODIFIED=1
+
+if [ $GIT_MODIFIED -eq 1 ]; then
+  git stash
+fi
+
+git svn dcommit
+
+if [ $GIT_MODIFIED -eq 1 ]; then
+  git stash pop
+fi
