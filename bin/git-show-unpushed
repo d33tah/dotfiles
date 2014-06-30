@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Display information about unpushed git commits. Works with git-svn.
+# Author: Jacek Wielemborek, licensed under WTFPL.
+
+UNPUSHED_RANGE="$( git log --grep='git-svn-id' --format=oneline | head -n1 | cut -d' ' -f1 ).."
+if [ "X${UNPUSHED_RANGE}X" == "X..X" ]; then
+  UNPUSHED_RANGE="$( git log origin/master..HEAD --reverse --format=oneline | head -n1 | cut -d' ' -f1 )^.."
+fi
+
+( echo -e "\nFirst, take a look at the overall commit comments:\n"
+  PAGER="cat" git log --color=always --format=short --reverse "${UNPUSHED_RANGE}" ) | less -r
+
+for commit in `git log --reverse --format=oneline "${UNPUSHED_RANGE}" | cut -d' ' -f1`; do
+  ( echo "Commit: $( git log --format=fuller --color=always ${commit}^..${commit} )" ;
+    echo;
+    PAGER="cat" git diff ${commit}^..${commit} | diffstat -C
+    echo
+    PAGER="cat" git diff --color=always ${commit}^..${commit}
+  ) | less -r
+done
