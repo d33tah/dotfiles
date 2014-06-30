@@ -4,3 +4,4 @@ dht_port = 6881
 port_range = 49164-49164
 peer_exchange = yes
 encryption = require,require_RC4,allow_incoming,enable_retry
+upload_rate = 5
