@@ -27,7 +27,7 @@ fi
 if [ "$SSH_CONNECTION" != "" ]; then
   if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
       if [[ $TERM != screen ]] && ! screen -x -SU main; then
-      ssh-agent screen -c ~/.screenrc-wrapper -SU wrapper screen -SU main
+      screen -c ~/.screenrc-wrapper -SU wrapper ssh-agent screen -SU main
       fi
   fi
 fi
