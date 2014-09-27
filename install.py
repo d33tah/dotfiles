@@ -22,7 +22,7 @@ def file_exists(path):
 for filename in os.listdir('.'):
     if os.path.abspath(filename) == argv0 or filename.startswith('.'):
         continue
-    if filename != 'bin':
+    if filename != 'bin-scripts':
         target = os.environ['HOME'] + os.sep + '.' + filename
     else:
         target = os.environ['HOME'] + os.sep + filename
