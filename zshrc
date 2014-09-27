@@ -4,7 +4,7 @@ export PYTHONRC="$HOME/.pythonrc"
 export PYTHONIOENCODING=utf-8
 setopt NO_BEEP
 
-PATH=$HOME/bin:$PATH
+PATH=$HOME/bin-scripts:$HOME/bin:$PATH
 
 set -o vi
 
