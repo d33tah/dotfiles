@@ -8,8 +8,8 @@
 [alias]
 	spush = !sh -c \"git push || git pull --rebase && git push\"
 	spull = !sh -c \"git stash && git pull --rebase && git stash pop\"
-	c1 = !sh -c \"git log | grep 'commit' | tail -n1 | cut -d' ' -f2 \"
-	d1 = !sh -c \"git diff `git c1`.. \"
-	ds = !sh -c \"git d1 | diffstat \"
+	c1 = !sh -c \"cd ${GIT_PREFIX:-.} && git rev-list --all | tail -n1\"
+	d1 = !sh -c \"cd ${GIT_PREFIX:-.} && git diff `cd ${GIT_PREFIX:-.} && git c1 $1`.. $1\"
+	ds = !sh -c \"cd ${GIT_PREFIX:-.} && git d1 $1 | diffstat\"
 #[svn]
 #	authorsfile = /home/d33tah/.gitusers
