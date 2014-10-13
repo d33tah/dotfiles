@@ -6,6 +6,11 @@ import shutil
 
 argv0 = os.path.abspath(sys.argv[0])
 
+# TODO:
+#
+# Don't overwrite bin
+# If the symlink points to the same place, don't overwrite it.
+
 def file_exists(path):
     try:
         os.stat(path)
