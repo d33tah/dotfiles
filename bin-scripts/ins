@@ -1,0 +1,7 @@
+#!/bin/sh
+for x in "$@"; do
+    stat "$x"
+    file "$x"
+    md5sum "$x"
+    echo
+done

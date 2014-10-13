@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Runs vimdiff for output of a given command for two files.
+#
+# EXAMPLE:
+#
+# This will compare the stat of /etc/cron.daily and /etc/cron.hourly:
+#
+# diffcmd stat /etc/cron.daily /etc/cron.hourly
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
+cmd=$1
+shift
+vimdiff <( "$cmd" "$1" ) <( "$cmd" "$2" )
