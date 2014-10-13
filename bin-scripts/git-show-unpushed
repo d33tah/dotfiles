@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Display information about unpushed git commits. Works with git-svn.
-# Author: Jacek Wielemborek, licensed under WTFPL.
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
 UNPUSHED_RANGE="$( git log --grep='git-svn-id' --format=oneline | head -n1 | cut -d' ' -f1 ).."
 if [ "X${UNPUSHED_RANGE}X" == "X..X" ]; then

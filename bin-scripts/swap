@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Swaps filenames of two files or directories.
-# by cayhorstmann, source: http://stackoverflow.com/a/22564228/1091116
+# AUTHOR: cayhorstmann, source: http://stackoverflow.com/a/22564228/1091116
 
 if [ ! -z "$2" ] && [ -e "$1" ] && [ -e "$2" ] && ! [ "$1" -ef "$2" ] && (([ -f "$1" ] && [ -f "$2" ]) || ([ -d "$1" ] && [ -d "$2" ])) ; then
   tmp=$(mktemp -d $(dirname "$1")/XXXXXX)

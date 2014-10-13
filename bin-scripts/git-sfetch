@@ -2,7 +2,8 @@
 
 # Runs git svn fetch && git svn rebase, stashing the working tree changes if
 # there are any.
-# Author: Jacek Wielemborek, licensed under WTFPL.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
 GIT_MODIFIED=0
 
