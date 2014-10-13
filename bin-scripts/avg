@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# Calculates the average of numbers from the standard input.
+#
+# EXAMPLE:
+#
+# > seq 10 | avg
+# 5
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
 a=0
 b=0
 while read i; do

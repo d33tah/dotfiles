@@ -1,7 +1,11 @@
 #!/bin/bash
+
+# Loads the given program in a GNU debugger session, sets a breakpoint at
+# main() and runs the program. Useful for stepping through the command's code.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
 prog=$1
 shift
 echo gdb "$prog" -ex "break main" -ex "r $*"
 gdb "$prog" -ex "break main" -ex "r $*"
-#exec `which gdb` $1 -ex "r ${1+"$@"}"
-

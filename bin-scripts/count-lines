@@ -1,5 +1,15 @@
 #!/usr/bin/python
 
+# Counts the occurences of all lines from the standard input and prints in the
+# order from most common to least.
+#
+# EXAMPLE:
+#
+# > dmesg | count-lines | head -n1
+# 2:      [    0.000000] ACPI: Local APIC address 0xfee00000
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
 from collections import defaultdict
 d = defaultdict(int)
 import sys

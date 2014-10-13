@@ -1,7 +1,11 @@
 #!/bin/bash
+
+# Runs the given program in a GNU debugger session. Useful for easily jumping
+# into the crashing command's code.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
 prog=$1
 shift
 echo gdb "$prog" -ex "r $*"
 gdb "$prog" -ex "r $*"
-#exec `which gdb` $1 -ex "r ${1+"$@"}"
-
