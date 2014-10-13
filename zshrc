@@ -163,9 +163,9 @@ WATCHFMT="User %n has %a on tty %l at %T %W"
     esac
 
 # History
-export HISTSIZE=500000
+export HISTSIZE=5000000
 export HISTFILE=~/.history_zsh
-export SAVEHIST=400000
+export SAVEHIST=4000000
 
 # of course
 export EDITOR="/usr/bin/vim"
