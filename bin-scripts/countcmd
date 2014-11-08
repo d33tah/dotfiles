@@ -1,0 +1,190 @@
+#!/usr/bin/python
+
+"""
+Prints the average, sum, minimum, maximum and the self.count of numbers given
+in the standard input. Output can be adjusted using many command-line options.
+
+AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+"""
+
+"""
+TODO:
+    * Document the code
+    * Argument parsing should not be done in the main class
+    * Make it work with any iterable
+"""
+
+import sys
+import argparse
+import os  # os.sep in guess_from_filename
+
+
+class CountCMD:
+
+    def __init__(self, f=sys.stdin):
+        """Constructs and initializes a CountCMD instance."""
+        self.f = f
+        self.sum = 0
+        self.count = 0
+        self.min = None
+        self.max = None
+
+        parser = argparse.ArgumentParser(description=__doc__)
+        self.setup_parser(parser)
+        self.args = parser.parse_args()
+        if not "PyPy" in sys.version and not self.args.no_pypy:
+            self.try_rerun_in_pypy()
+        self.guess_from_filename()
+        self.post_parse_args()
+        if self.args.static_main_loop:
+            self.main_loop = self.main_loop_static
+        else:
+            self.build_main_loop()
+
+    def setup_parser(self, parser):
+        """Adds various command line arguments support."""
+        parser.add_argument(
+            '--integer', action='store_true',
+            help="display the numbers as integers instead of floating-point "
+            "values")
+        parser.add_argument(
+            '--count', action='store_true',
+            help="display the total number of lines")
+        parser.add_argument(
+            '--sum', action='store_true',
+            help="display the sum of numbers entered")
+        parser.add_argument(
+            '--average', action='store_true',
+            help="display the average of numbers entered")
+        parser.add_argument(
+            '--minimum', action='store_true',
+            help="display the minimum of numbers entered")
+        parser.add_argument(
+            '--maximum', action='store_true',
+            help="display the maximum of numbers entered")
+        parser.add_argument(
+            '--strict', action='store_true',
+            help="in case of invalid input, display an error and exit")
+        parser.add_argument(
+            '--no-pypy', action='store_true',
+            help="do not try to run PyPy. This might speed things up if PyPy"
+            " is not present")
+        parser.add_argument(
+            '--static-main-loop', action='store_true',
+            help="do not try to compile the main loop")
+        parser.add_argument(
+            '--no-caption', action='store_true',
+            help="display captions for the printed statistics")
+
+    def try_rerun_in_pypy(self):
+        """Tries to rerun the program in PyPy. Ignores the error."""
+        try:
+            import subprocess
+            ret = subprocess.call(["pypy"] + sys.argv)
+            sys.exit(ret)
+        except OSError:
+            pass
+
+    def guess_from_filename(self):
+        """Set the program mode based on its filename."""
+        n = sys.argv[0].split(os.sep)[-1]
+        if n == "avg":
+            self.args.average = True
+        elif n == "count":
+            self.args.count = True
+        elif n == "min":
+            self.args.minimum = True
+        elif n == "max":
+            self.args.maximum = True
+        elif n == "sum-col":
+            self.args.sum = True
+
+    def post_parse_args(self):
+        """Does any initialization that should be done after parsing the
+           command-line arguments."""
+        if not any([self.args.count, self.args.sum, self.args.average,
+                    self.args.minimum, self.args.maximum]):
+            self.args.count = True
+            self.args.sum = True
+            self.args.average = True
+            self.args.minimum = True
+            self.args.maximum = True
+
+        if self.args.integer:
+            self.format = "%d"
+        else:
+            self.format = "%f"
+
+    def main_loop_static(self):
+        """A static version of the main loop that does everything."""
+        for self.line in self.f:
+            n = float(self.line)
+            self.sum += n
+            self.count += 1
+            if self.min is None or n < self.min:
+                self.min = n
+            if self.max is None or n > self.max:
+                self.max = n
+
+    def build_main_loop(self):
+        """Compiles an optimized version of the main loop."""
+        f = "def main_loop(self):\n"
+        f += "    for self.line in self.f:\n"
+        f += "        self.count += 1\n"
+        f += "        n = float(self.line)\n"
+        if self.args.sum or self.args.average:
+            f += "        self.sum += n\n"
+        if self.args.minimum:
+            f += "        if self.min is None or n < self.min: self.min = n\n"
+        if self.args.maximum:
+            f += "        if self.max is None or n > self.max: self.max = n\n"
+        exec(f)
+        # found this trick here: http://jasonstitt.com/add-bound-methods-python
+        self.main_loop = main_loop.__get__(self, self.__class__)
+
+    def run(self):
+        """Runs the main loop and handles any errors."""
+        while True:
+            try:
+                self.main_loop()
+                break
+            except ValueError:
+                if not self.args.strict:
+                    continue
+                else:
+                    sys.exit("ERROR in line %d: %s" % (self.count,
+                                                       self.line[:-1]))
+
+    def _print_number(self, caption, number):
+        """Prints the number, optionally with a caption"""
+        if number is None:
+            format_ = "%s"
+            number = "?"
+        else:
+            format_ = self.format
+        if not self.args.no_caption:
+            print((caption + format_) % number)
+        else:
+            print(format_ % number)
+
+    def print_results(self):
+        """Print the final results."""
+        if self.args.count:
+            self._print_number("Count: ", self.count)
+        if self.args.sum:
+            self._print_number("Sum: ", self.sum)
+        if self.args.average:
+            if self.count != 0:
+                avg = self.count/self.sum
+            else:
+                avg = 0
+            self._print_number("Average: ", avg)
+        if self.args.minimum:
+            self._print_number("Minimum: ", self.min)
+        if self.args.maximum:
+            self._print_number("Maximum: ", self.max)
+
+if __name__ == "__main__":
+    c = CountCMD()
+    c.run()
+    c.print_results()
