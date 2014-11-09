@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+import sys
+import urllib
+from lxml import html
+
+def get_url(url):
+    print(url)
+    n = 'history/' + url.replace('/', '_')
+    try:
+        f = open(n)
+        s = f.read()
+        f.close()
+    except:
+        f = open(n, "w")
+        s = urllib.urlopen(url).read()
+        f.write(s)
+        f.close()
+    t = html.fromstring(s)
+    if t.xpath('/html/head/title')[0].text == 'Internet Archive Wayback Machine':
+        return "https://web.archive.org" + t.xpath('/html/body/div/section[2]/div/p[6]/a')[0].get('href')
+    return "https://web.archive.org" + t.xpath('//img [@alt="Next capture"]/..')[0].get('href')
+
+try:
+    url = sys.argv[1]
+    while True:
+        new_url = get_url(url)
+        if new_url == url:
+            sys.exit("Got a loop at %s." % url)
+        url = new_url
+except:
+    print(url)
+    raise
