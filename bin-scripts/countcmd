@@ -175,7 +175,7 @@ class CountCMD:
             self._print_number("Sum: ", self.sum)
         if self.args.average:
             if self.count != 0:
-                avg = self.count/self.sum
+                avg = self.sum/self.count
             else:
                 avg = 0
             self._print_number("Average: ", avg)
