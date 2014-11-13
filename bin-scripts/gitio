@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Registers a git.io shortcut.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
+
+
+if [ "$#" -ne "2" ]; then
+    echo "Usage: $0 http://some.github.com/url code"
+else
+    curl -i http://git.io -F "url=$1" -F "code=$2"
+fi
