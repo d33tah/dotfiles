@@ -180,3 +180,5 @@ case $TERM in (xterm*)
         bindkey "\e[F" end-of-line
 esac
 bindkey "\e[3~" delete-char
+
+alias mow='rlwrap espeak -v pl'
