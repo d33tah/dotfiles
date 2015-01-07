@@ -182,3 +182,5 @@ esac
 bindkey "\e[3~" delete-char
 
 alias mow='rlwrap espeak -v pl'
+alias nmap-quiet='nmap -Pn -n'
+alias shred-zero='shred -uvzn0'
