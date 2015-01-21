@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# Displays statistics about system resources. Intended to be minimalistic
+# and put as a GNU Screen hardstatus command.
+#
+# USAGE:
+#
+# Add the following to ~/.screenrc:
+#
+# hardstatus alwayslastline
+# hardstatus string "%1`"
+# backtick 1 0 0 backtick looped
+
+
+REFRESH_SECONDS=3
+
+while true; do
+    echo -n `df -h / | awk '/^[^F]/ { print $4 }'`
+    echo -n "|"
+    free -m | awk '
+
+        NR==2 {
+            if(/Mem/) {
+                total=$2;
+                free=$4;
+                available=$6
+            }
+        };
+
+        NR==3 {
+            if(/buffers/) {
+                available=$4
+            }
+        }
+
+        END {
+            printf "M:%d\n", (free+available)
+            #printf "MEM:%d/%d\n", total-(free+available), total
+        }'
+    if [ "$1" != "looped" ]; then
+        break
+    fi
+    sleep $REFRESH_SECONDS
+done
