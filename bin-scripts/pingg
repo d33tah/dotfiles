@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+"""
+Runs ping and detects drops in the output.
+
+AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+"""
+
+import sys
+import subprocess
+import signal
+
+def main(argv):
+    p = subprocess.Popen(["ping"] + sys.argv[1:], stdout=subprocess.PIPE)
+    curr_seq = 0
+    while True:
+        try:
+            line = p.stdout.readline()
+            if line == "":
+                break
+            seq_split = line.split("icmp_seq=")
+            if len(seq_split) > 1:
+                seq = int(seq_split[1].split()[0])
+                if seq != curr_seq + 1:
+                    print("(drop)")
+                curr_seq = seq
+            print(line[:-1])
+        except KeyboardInterrupt:
+            p.send_signal(signal.SIGINT)
+            break
+
+if __name__ == "__main__":
+    main()
