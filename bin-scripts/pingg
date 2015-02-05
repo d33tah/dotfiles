@@ -11,7 +11,7 @@ import subprocess
 import signal
 
 def main(argv):
-    p = subprocess.Popen(["ping"] + sys.argv[1:], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["ping"] + argv[1:], stdout=subprocess.PIPE)
     curr_seq = 0
     while True:
         try:
@@ -30,4 +30,4 @@ def main(argv):
             break
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
