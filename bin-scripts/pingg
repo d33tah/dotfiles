@@ -3,6 +3,9 @@
 """
 Runs ping and detects drops in the output.
 
+TODO: handle a situation when every mod 65k packet is let through and we
+basically notice a drop everytime.
+
 AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 """
 
