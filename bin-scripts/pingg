@@ -25,7 +25,8 @@ def main(argv):
             if len(seq_split) > 1:
                 seq = int(seq_split[1].split()[0])
                 if seq != curr_seq + 1:
-                    print("(drop)")
+                    for i in range(seq - curr_seq - 1):
+                        print("(drop)")
                 curr_seq = seq
             print(line[:-1])
         except KeyboardInterrupt:
