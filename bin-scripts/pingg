@@ -31,6 +31,7 @@ def main(argv):
             print(line[:-1])
         except KeyboardInterrupt:
             p.send_signal(signal.SIGINT)
+            print(p.stdout.read())
             break
 
 if __name__ == "__main__":
