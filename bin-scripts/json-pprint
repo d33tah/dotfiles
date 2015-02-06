@@ -1,0 +1,5 @@
+#!/bin/sh
+# Pretty-prints a given JSON file.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+python -c "__import__('pprint').pprint(__import__('json').load(open('$1')))"
