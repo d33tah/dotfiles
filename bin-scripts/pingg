@@ -13,26 +13,49 @@ import sys
 import subprocess
 import signal
 
-def main(argv):
-    p = subprocess.Popen(["ping"] + argv[1:], stdout=subprocess.PIPE)
-    curr_seq = 0
-    while True:
-        try:
-            line = p.stdout.readline()
-            if line == "":
+def b(s):
+    if sys.version < "3":
+        return s
+    return bytes(s, "ascii")
+
+class Pingg(object):
+
+    def __init__(self, argv):
+        self.last_seq = 0
+        self.args = argv
+
+    def handle_line(self, line):
+        # figure out the current seq
+        if not b("icmp_seq") in line:
+            return
+
+        seq_starts = line.find(b("icmp_seq=")) + len(b("icmp_seq="))
+        seq_ends = line.find(b(" "), seq_starts)
+        curr_seq = int(line[seq_starts:seq_ends])
+
+        if curr_seq != self.last_seq + 1:
+            # we've found the gap
+            for i in range(curr_seq - self.last_seq - 1):
+                before_seq = line[:line.find(b(" icmp_seq="))]
+                missing_seq = self.last_seq + i + 1
+                to_print = ("%s icmp_seq=%d ttl=?? " +
+                            "time=??? (DROP)") % (before_seq, missing_seq)
+                print(to_print.decode('ascii'))
+        self.last_seq = curr_seq
+
+    def main(self):
+        p = subprocess.Popen(["ping"] + self.args, stdout=subprocess.PIPE)
+        while True:
+            try:
+                line = p.stdout.readline()
+                if line == "":
+                    break
+                self.handle_line(line)
+                print(line[:-1].decode('ascii'))
+            except KeyboardInterrupt:
+                p.send_signal(signal.SIGINT)
+                print(p.stdout.read())
                 break
-            seq_split = line.split("icmp_seq=")
-            if len(seq_split) > 1:
-                seq = int(seq_split[1].split()[0])
-                if seq != curr_seq + 1:
-                    for i in range(seq - curr_seq - 1):
-                        print("(drop)")
-                curr_seq = seq
-            print(line[:-1])
-        except KeyboardInterrupt:
-            p.send_signal(signal.SIGINT)
-            print(p.stdout.read())
-            break
 
 if __name__ == "__main__":
-    main(sys.argv)
+    Pingg(sys.argv[1:]).main()
