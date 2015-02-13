@@ -13,3 +13,5 @@
 	ds = !sh -c \"cd ${GIT_PREFIX:-.} && git d1 $1 | diffstat\"
 #[svn]
 #	authorsfile = /home/d33tah/.gitusers
+[branch]
+	autosetuprebase = always
