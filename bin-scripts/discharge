@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Discharges the laptop battery to 60%, then suspends the laptop, assuming
+# that KDE4 is working there.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
+NPROC=`nproc`
+stress -c $NPROC -m $NPROC &
+while sleep 10; do
+    NOW=`batt | cut -d'.' -f1`
+    echo $NOW
+    if [ "$NOW" -eq "60" ]; then
+        killall stress;
+            suspend-to-disk
+        break
+    fi
+done

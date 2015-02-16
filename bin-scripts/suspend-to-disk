@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Suspends to the computer to disk assuming that it is running KDE4.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
+dbus-send --system \
+    --print-reply \
+    --dest="org.freedesktop.login1" \
+    /org/freedesktop/login1 \
+    org.freedesktop.login1.Manager.Suspend \
+    boolean:true
