@@ -11,6 +11,13 @@
 # AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
 from collections import defaultdict
+import sys
+
+if sys.stdin.isatty():
+    sys.stderr.write("WARNING: stdin is a TTY. This is probably not what you "
+                     "wanted.")
+    sys.stderr.flush()
+
 d = defaultdict(int)
 import sys
 while True:

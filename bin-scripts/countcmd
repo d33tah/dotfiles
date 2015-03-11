@@ -36,6 +36,10 @@ class CountCMD:
             self.try_rerun_in_pypy()
         self.guess_from_filename()
         self.post_parse_args()
+        if f == sys.stdin and sys.stdin.isatty():
+            sys.stderr.write("WARNING: stdin is a TTY. This is probably not "
+                             "what you wanted.\n")
+            sys.stderr.flush()
         if self.args.static_main_loop:
             self.main_loop = self.main_loop_static
         else:
