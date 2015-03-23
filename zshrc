@@ -82,7 +82,6 @@ setopt correctall autocd
 setopt short_loops
 setopt nohup
 setopt extended_history
-setopt share_history
 setopt extendedglob
 setopt interactivecomments
 setopt hist_ignore_all_dups
