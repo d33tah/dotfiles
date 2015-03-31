@@ -24,7 +24,6 @@ if __name__ == '__main__':
     #delta = True
     use_idx = int(sys.argv[2] if len(sys.argv) > 2 else 0)
     if len(sys.argv) > 3:
-        sys.stderr.write("Hi!\n")
         adjust_data = eval('lambda data: ' + sys.argv[3])
     else:
         adjust_data = lambda data: data
