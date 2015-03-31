@@ -107,6 +107,7 @@ export PS1="$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..$
 
 #exporting colors
 export GREP_COLOR=31
+export MYSQL_PS1="[\D]> "
 
 #aliases
 alias ls="ls --color=auto --classify $*"
