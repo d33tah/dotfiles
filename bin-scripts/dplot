@@ -9,7 +9,7 @@ Tue Mar 31 17:18:34 CEST 2015: 67339
 Sample command that generates this:
 while sleep 1; do echo "`date`: `df -m  / | awk '/^[^F]/ { print $3 }'`"; done
 
-USAGE: dplot filename [colnum] [adjust_data_eval]
+USAGE: dplot [filename] [colnum] [adjust_data_eval]
 AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 """
 
@@ -19,6 +19,7 @@ import subprocess
 
 if __name__ == '__main__':
 
+    filename = sys.argv[1] if len(sys.argv) > 1 else "/dev/stdin"
     last_count = None
     delta = False
     #delta = True
@@ -31,41 +32,45 @@ if __name__ == '__main__':
     if sys.stdout.isatty():
         sys.exit("ERROR: This would print a PNG file to the terminal.")
 
-    p = subprocess.Popen(["gnuplot", "-"], stdin=subprocess.PIPE)
-    p.stdin.write("""
-    set term png size 1000,800
-    set xlabel "Time (s)"
-    set ylabel "Timing variable"
-    set xdata time
-    set timefmt "%s"
-    set format y "%f"
-    #set logscale y
-    set nokey
+    with open(filename) as f:
+        p = subprocess.Popen(["gnuplot", "-"], stdin=subprocess.PIPE)
+        p.stdin.write("""
+        set term png size 1000,800
+        set xlabel "Time (s)"
+        set ylabel "Timing variable"
+        set xdata time
+        set timefmt "%s"
+        set format y "%f"
+        #set logscale y
+        set nokey
 
 
-    set mxtics 5
-    set mytics 5
+        set mxtics 4
+        set mytics 4
 
-    set style line 101 lt 1 lc rgb "gray" lw 1
-    set grid mxtics mytics xtics ytics ls 101
+        set style line 100 lt 1 lc rgb "gray" lw 2
+        set style line 101 lt 0.5 lc rgb "gray" lw 1
 
-    plot "-" using 1:2 with lines;
-    """)
-    for line in open(sys.argv[1]):
-        split = line.split(": ")
-        split2 = split[1].split(',')
-        if len(split2) < use_idx + 1:
-            continue
-        date, count = split[0], split2[use_idx]
-        date = dateutil.parser.parse(date).strftime("%s")
-        count = adjust_data(int(count.rstrip()))
-        if delta:
-            if last_count is None:
-                last_count = count
+        set grid mytics ytics ls 100, ls 101
+        set grid mxtics xtics ls 100, ls 101
+
+        plot "-" using 1:2 with lines;
+        """)
+        for line in f:
+            split = line.split(": ")
+            split2 = split[1].split(',')
+            if len(split2) < use_idx + 1:
                 continue
-            else:
-                count_old = count
-                count = count - last_count
-                last_count = count_old
-        p.stdin.write("%s %s\n" % (date, count))
-    p.stdin.close()
+            date, count = split[0], split2[use_idx]
+            date = dateutil.parser.parse(date).strftime("%s")
+            count = adjust_data(int(count.rstrip()))
+            if delta:
+                if last_count is None:
+                    last_count = count
+                    continue
+                else:
+                    count_old = count
+                    count = count - last_count
+                    last_count = count_old
+            p.stdin.write("%s %s\n" % (date, count))
+        p.stdin.close()
