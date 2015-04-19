@@ -1,0 +1,36 @@
+#!/usr/bin/env pypy
+
+"""
+Takes a stream of IPs and translate them to 2-character country names using
+Geolite2.
+
+Usage:
+
+iptocountry < iplist.txt > countrylist.txt
+
+AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+"""
+
+import sys
+from geoip import geolite2
+
+bad_ip = no_match = no_country = 0
+for line in sys.stdin:
+  ip = line.rstrip("\r\n")
+  try:
+    match = geolite2.lookup(ip)
+  except ValueError:
+    bad_ip += 1
+    continue
+  if match is None:
+    no_match += 1
+    continue
+  country = match.country
+  if country is None:
+    no_country += 1
+    continue
+  print(country)
+
+sys.stderr.write(("iptocountry done. Found no matches for %s IPs "
+                  "and no countries for %s IPs. %s IPs were malformed.\n") % (
+                 no_country, no_match, bad_ip))
