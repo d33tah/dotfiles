@@ -1,0 +1,42 @@
+#!/usr/bin/env pypy
+
+"""
+Takes a stream of IPs and draws an SVG map showing their distribution across
+the world.
+
+Usage:
+
+mapips BlankMap-World6.svg < iplist.txt
+
+AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+"""
+
+import sys
+import collections
+import math
+from geoip import geolite2
+
+counts = collections.defaultdict(int)
+none = 0
+for line in sys.stdin:
+  ip = line.rstrip()
+  match = geolite2.lookup(ip)
+  if match is None:
+    none += 1
+    continue
+  country = match.country
+  if country is None:
+    continue
+  counts[country] += 1
+
+counts_sorted = sorted(counts.items(), key=lambda x: x[1])
+max_count = float(counts_sorted[-1][1])
+
+map_str = open(sys.argv[1]).read()
+style_append = ""
+for x in counts_sorted:
+  country = x[0].lower()
+  color = int(math.log(x[1], max_count) * 255)
+  style_append += " .%s { fill: #%02x0000; }" % (country, color)
+map_str = map_str.replace('</style>', style_append + '</style>')
+print(map_str)
