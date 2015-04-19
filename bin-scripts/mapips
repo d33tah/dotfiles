@@ -16,6 +16,9 @@ import collections
 import math
 from geoip import geolite2
 
+if len(sys.argv) != 2:
+    sys.exit("Usage: %s path-to-BlankMap-World6.svg" % sys.argv[0])
+
 counts = collections.defaultdict(int)
 none = 0
 for line in sys.stdin:
