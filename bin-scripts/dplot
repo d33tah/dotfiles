@@ -17,6 +17,49 @@ import sys
 import dateutil.parser
 import subprocess
 
+def main(f, adjust_data, use_idx):
+    p = subprocess.Popen(["gnuplot", "-"], stdin=subprocess.PIPE)
+    p.stdin.write("""
+    set term png size 1000,800
+    set xlabel "Time (s)"
+    set ylabel "Timing variable"
+    set xdata time
+    set timefmt "%s"
+    set format y "%f"
+    #set logscale y
+    set nokey
+
+
+    set mxtics 4
+    set mytics 4
+
+    set style line 100 lt 1 lc rgb "gray" lw 2
+    set style line 101 lt 0.5 lc rgb "gray" lw 1
+
+    set grid mytics ytics ls 100, ls 101
+    set grid mxtics xtics ls 100, ls 101
+
+    plot "-" using 1:2 with lines;
+    """)
+    for line in f:
+        split = line.split(": ")
+        split2 = split[1].split(',')
+        if len(split2) < use_idx + 1:
+            continue
+        date, count = split[0], split2[use_idx]
+        date = dateutil.parser.parse(date).strftime("%s")
+        count = adjust_data(count.rstrip())
+        if delta:
+            if last_count is None:
+                last_count = count
+                continue
+            else:
+                count_old = count
+                count = count - last_count
+                last_count = count_old
+        p.stdin.write("%s %s\n" % (date, count))
+    p.stdin.close()
+
 if __name__ == '__main__':
 
     filename = sys.argv[1] if len(sys.argv) > 1 else "/dev/stdin"
@@ -27,50 +70,10 @@ if __name__ == '__main__':
     if len(sys.argv) > 3:
         adjust_data = eval('lambda data: ' + sys.argv[3])
     else:
-        adjust_data = lambda data: data
+        adjust_data = lambda data: int(data)
 
     if sys.stdout.isatty():
         sys.exit("ERROR: This would print a PNG file to the terminal.")
 
     with open(filename) as f:
-        p = subprocess.Popen(["gnuplot", "-"], stdin=subprocess.PIPE)
-        p.stdin.write("""
-        set term png size 1000,800
-        set xlabel "Time (s)"
-        set ylabel "Timing variable"
-        set xdata time
-        set timefmt "%s"
-        set format y "%f"
-        #set logscale y
-        set nokey
-
-
-        set mxtics 4
-        set mytics 4
-
-        set style line 100 lt 1 lc rgb "gray" lw 2
-        set style line 101 lt 0.5 lc rgb "gray" lw 1
-
-        set grid mytics ytics ls 100, ls 101
-        set grid mxtics xtics ls 100, ls 101
-
-        plot "-" using 1:2 with lines;
-        """)
-        for line in f:
-            split = line.split(": ")
-            split2 = split[1].split(',')
-            if len(split2) < use_idx + 1:
-                continue
-            date, count = split[0], split2[use_idx]
-            date = dateutil.parser.parse(date).strftime("%s")
-            count = adjust_data(int(count.rstrip()))
-            if delta:
-                if last_count is None:
-                    last_count = count
-                    continue
-                else:
-                    count_old = count
-                    count = count - last_count
-                    last_count = count_old
-            p.stdin.write("%s %s\n" % (date, count))
-        p.stdin.close()
+        main(f, adjust_data, use_idx)
