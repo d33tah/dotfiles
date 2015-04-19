@@ -15,6 +15,8 @@
 REFRESH_SECONDS=3
 
 while true; do
+    #Label: whitespace plus (data until you hit a space) (discarded data)
+    echo -n "`sensors 2>&1 | grep 'Core 0' | sed 's/^.*:\s\++\([^ ]*\).*$/\1/g'`|"
     echo -n `df -h / | awk '/^[^F]/ { print $4 }'`
     echo -n "|"
     free -m | awk '
