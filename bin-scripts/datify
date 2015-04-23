@@ -13,4 +13,4 @@
 #
 # AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
-perl -pe '$x = `date`; chomp $x; print "$x: "'
+perl -pe '$|=1; $x = `date`; chomp $x; print "$x: "'
