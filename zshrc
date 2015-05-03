@@ -16,6 +16,7 @@ echo "Jestes w screenie"
 fi
 
 export LC_ALL=en_US.UTF-8
+source ~/virtualenv/bin/activate
 
 bindkey "5C" forward-word
 bindkey "5D" backward-word
