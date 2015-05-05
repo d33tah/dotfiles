@@ -105,7 +105,7 @@ set runtimepath+=$HOME/.vim/detectindent-1.0
 :autocmd BufReadPost * :DetectIndent
 
 :highlight ExtraWhitespace ctermbg=red guibg=red
-:match ExtraWhitespace /\t\|\s\+$/
+:match ExtraWhitespace /\t\|\s\+$\|[^ ]  [^ #]/
 
 ":highlight Tabs ctermbg=blue guibg=blue
 ":match Tabs /^\t\+/
