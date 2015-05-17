@@ -88,6 +88,7 @@ setopt interactivecomments
 setopt hist_ignore_all_dups
 setopt auto_remove_slash
 setopt short_loops
+setopt nonomatch
 unsetopt equals
 
 
