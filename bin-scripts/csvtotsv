@@ -10,6 +10,10 @@ Author: Jacek Wielemborek, licensed under WTFPL.
 
 import csv
 import sys
+
+if sys.stdin.isatty():
+    sys.exit("USAGE: %s < input" % sys.argv[0])
+
 r = csv.reader(sys.stdin)
 for row in r:
     for col in row:
