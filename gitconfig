@@ -15,3 +15,5 @@
 #	authorsfile = /home/d33tah/.gitusers
 [branch]
 	autosetuprebase = always
+[push]
+	default = matching
