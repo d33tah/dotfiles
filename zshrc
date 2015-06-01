@@ -26,6 +26,9 @@ bindkey "5D" backward-word
 if [ -f ~/.github-token ]; then
   source ~/.github-token
 fi
+if [ -f ~/virtualenv/bin/activate ]; then
+    source ~/virtualenv/bin/activate
+fi
 
 if [ "$SSH_CONNECTION" != "" ]; then
   if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
