@@ -4,7 +4,8 @@ export PYTHONRC="$HOME/.pythonrc"
 export PYTHONIOENCODING=utf-8
 setopt NO_BEEP
 
-PATH=$HOME/bin-scripts:$HOME/bin:$PATH
+export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH
+export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
 
 set -o vi
 
