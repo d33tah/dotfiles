@@ -6,6 +6,7 @@ setopt NO_BEEP
 
 export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH
 export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
+alias nmapp='nmap --script="default,external,safe and not http-slowloris-check"'
 
 set -o vi
 
