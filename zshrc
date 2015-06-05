@@ -96,18 +96,18 @@ setopt short_loops
 setopt nonomatch
 unsetopt equals
 
+if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
+  export NMAP_PRIVILEGED="1"
+else
+  echo "WARNING: No Nmap with cap_net_raw in \$PATH!" >&2
+fi
 
 if [ "$SALTED_HOSTNAME_MD5" == "793e4a1cceaa5571857b2c3c18955758" ]; then
   local COLOR=${YELLOW}
-  export NMAP_PRIVILEGED="1"
 fi
 
 if [ "$SALTED_HOSTNAME_MD5" == "77ad4a3076ca39632f7dd5009a60ca7d" ]; then
   local COLOR=${BRIGHTYELLOW}
-fi
-
-if [ "$SALTED_HOSTNAME_MD5" == "f4781443172a938c1d706088c1d3d625" ]; then
-  export NMAP_PRIVILEGED="1"
 fi
 
 export PS1="$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
