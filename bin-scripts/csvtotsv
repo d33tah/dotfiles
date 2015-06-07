@@ -14,9 +14,17 @@ import sys
 if sys.stdin.isatty():
     sys.exit("USAGE: %s < input" % sys.argv[0])
 
+add_null = "--add-null" in sys.argv
+remove_tabs = "--remove-tabs" in sys.argv
+
 r = csv.reader(sys.stdin)
 for row in r:
-    for col in row:
-        if '\t' in col:
-            sys.exit("The column contains the delimiter.")
+    for i in range(len(row)):
+        if '\t' in row[i]:
+            if not remove_tabs:
+                sys.exit("The column contains the delimiter.")
+            else:
+                row[i] = row[i].replace('\t', '')
+        if row[i] == '' and add_null:
+            row[i] = '\\N'
     print('\t'.join(list(row)))
