@@ -10,21 +10,29 @@ Author: Jacek Wielemborek, licensed under WTFPL.
 
 import csv
 import sys
+import argparse
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--add-null', action='store_true',
+                    help='''Add \\N in place of empty columns (for \
+                    PostgreSQL COPY command)''')
+parser.add_argument('--remove-tabs', action='store_true',
+                    help='''Remove the TAB character from the \
+                    input before processing''')
+parser.add_argument('--delimiter', default=',')
+args = parser.parse_args()
 
 if sys.stdin.isatty():
     sys.exit("USAGE: %s < input" % sys.argv[0])
 
-add_null = "--add-null" in sys.argv
-remove_tabs = "--remove-tabs" in sys.argv
-
-r = csv.reader(sys.stdin)
+r = csv.reader(sys.stdin, delimiter=args.delimiter)
 for row in r:
     for i in range(len(row)):
         if '\t' in row[i]:
-            if not remove_tabs:
+            if not args.remove_tabs:
                 sys.exit("The column contains the delimiter.")
             else:
                 row[i] = row[i].replace('\t', '')
-        if row[i] == '' and add_null:
+        if row[i] == '' and args.add_null:
             row[i] = '\\N'
     print('\t'.join(list(row)))
