@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pv -d `pgrep $1`
