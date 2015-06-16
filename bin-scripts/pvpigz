@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Decompresses given gzip files using pigz -dc, displaying the progress of the
+# file decompression.
+#
+# Author: Jacek Wielemborek, licensed under WTFPL.
+
+pv $@ | pigz -dc
