@@ -31,8 +31,8 @@ if [ -f ~/virtualenv/bin/activate ]; then
 fi
 
 if [ "$SSH_CONNECTION" != "" ]; then
-  if [[ $TERM != screen ]] && ! screen -x -SU wrapper; then
-      if [[ $TERM != screen ]] && ! screen -x -SU main; then
+  if echo $TERM | grep -v 'screen' && ! screen -x -SU wrapper; then
+      if echo $TERM | grep -v 'screen' && ! screen -x -SU main; then
       screen -c ~/.screenrc-wrapper -SU wrapper ssh-agent screen -SU main
       fi
   fi
