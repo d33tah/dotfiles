@@ -15,3 +15,6 @@ backtick 1 0 0 backtick looped
 hardstatus alwayslastline
 hardstatus string "%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[%1`][ %m/%d %c:%s ]%{W}"
 shell zsh
+
+# make scrolling work better
+termcapinfo xterm* ti@:te@
