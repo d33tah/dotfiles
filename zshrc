@@ -96,12 +96,14 @@ setopt short_loops
 setopt nonomatch
 unsetopt equals
 
+# If there is Nmap installed but it has no cap_net_raw for me.
 if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
   export NMAP_PRIVILEGED="1"
 else
   echo "WARNING: No Nmap with cap_net_raw in \$PATH!" >&2
 fi
 
+# Set special PS1 colors for some of my boxes.
 if [ "$SALTED_HOSTNAME_MD5" == "793e4a1cceaa5571857b2c3c18955758" ]; then
   local COLOR=${YELLOW}
 fi
@@ -110,7 +112,37 @@ if [ "$SALTED_HOSTNAME_MD5" == "77ad4a3076ca39632f7dd5009a60ca7d" ]; then
   local COLOR=${BRIGHTYELLOW}
 fi
 
-export PS1="$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
+# d33tah's prompt. Example:
+#
+# [ACL][x:S8:U1][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
+
+# Explanation:
+#
+# [ACL] shows when there might be any interesting ACL entries for this directory.
+# [x:S8:U1] says that I'm on a git branch x with 8 stashes and 1 unpushed commit.
+# The time is there in order to be able to tell how long the commands ran.
+# [1] is the error code of the previous command.
+# If the user is root, the $ will become #.
+#
+# I tried to make the Git and ACL prompt display as little as possible when
+# there was no interesting information found.
+
+setopt PROMPT_SUBST
+
+local detect_acl='$( [ `getfacl . | wc -l` -ne 7 ] && echo -n "[ACL]" )'
+
+local git_list_unpushed='git log --format=oneline "$(git unpushed-range 2>/dev/null)" 2>/dev/null'
+local git_unpushed=${git_list_unpushed}' | wc -l | grep -v "^0$"'
+
+local git_stashes='git stash list | wc -l | grep -v "^0$"'
+
+local git_current_branch='git symbolic-ref --short HEAD 2>/dev/null | egrep -v "^master$"'
+
+local git_detect='git status >/dev/null 2>&1'
+
+local git_prompt='$( '${git_detect}' && ( echo -n "[`'${git_current_branch}'`:S`'${git_stashes}'`:U`'${git_unpushed}'`]" ) )'
+
+export PS1="${detect_acl}${git_prompt}$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
