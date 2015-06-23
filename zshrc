@@ -117,13 +117,13 @@ fi
 
 # d33tah's prompt. Example:
 #
-# (virtualenv)[ACL][x:S8:U1][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
+# (virtualenv)[ACL][x:S8:U1:2][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
 
 # Explanation:
 #
 # (virtualenv) is the current python virtualenv.
 # [ACL] shows when there might be any interesting ACL entries for this directory.
-# [x:S8:U1] says that I'm on a git branch x with 8 stashes and 1 unpushed commit.
+# [x:S8:U1:2] says that I'm on a git branch x with 8 stashes, 1 unpushed commit and 2 files shown by --git-status.
 # The time is there in order to be able to tell how long the commands ran.
 # [1] is the error code of the previous command.
 # If the user is root, the $ will become #.
@@ -150,18 +150,18 @@ function virtualenv_prompt() {
 
 local detect_acl='$( [ `getfacl . | wc -l` -ne 7 ] && echo -n "[ACL]" )'
 
-local git_list_unpushed='git log --format=oneline "$(git unpushed-range 2>/dev/null)" 2>/dev/null'
-local git_unpushed=${git_list_unpushed}' | wc -l | grep -v "^0$"'
+function git_prompt() {
+    if git status >/dev/null 2>&1; then # are we in a git directory?
+        echo -n "["
+        git symbolic-ref --short HEAD 2>/dev/null | egrep -v "^master$" # branch name
+        echo -n ":S`git stash list | wc -l | grep -v '^0$'`" # stash count
+        echo -n ":U`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l | grep -v '^0$'`" # unpushed count
+        git status --porcelain | grep -q "." && ( echo -n ":`git status --porcelain | wc -l`" ) # changed file count
+        echo -n "]"
+    fi
+}
 
-local git_stashes='git stash list | wc -l | grep -v "^0$"'
-
-local git_current_branch='git symbolic-ref --short HEAD 2>/dev/null | egrep -v "^master$"'
-
-local git_detect='git status >/dev/null 2>&1'
-
-local git_prompt='$( '${git_detect}' && ( echo -n "[`'${git_current_branch}'`:S`'${git_stashes}'`:U`'${git_unpushed}'`]" ) )'
-
-export PS1='$( virtualenv_prompt )'"${detect_acl}${git_prompt}$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
+export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
