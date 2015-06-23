@@ -168,7 +168,12 @@ function virtualenv_prompt() {
   fi
 }
 
-local detect_acl='$( [ `getfacl . | wc -l` -ne 7 ] && echo -n "[ACL]" )'
+if getfacl --version >/dev/null 2>&1; then
+  local detect_acl='$( [ `getfacl . | wc -l` -ne 7 ] && echo -n "[ACL]" )'
+else
+  local detect_acl=''
+  echo "getfacl not found."
+fi
 
 function git_prompt() {
     if git status >/dev/null 2>&1; then # are we in a git directory?
