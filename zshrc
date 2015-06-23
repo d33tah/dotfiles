@@ -1,3 +1,17 @@
+# zshrc - ZSH Configuration file
+#
+# THE GIT PROMPT DEPENDS ON d33tah's ~/bin-scripts FILES.
+#
+# Author: Jacek "d33tah" Wielemborek, based on version from Dawid Węgliński
+# <cla@gentoo.org>. Original credits:
+#
+# # Credits - Some of this functions comes from zshwiki, some from .zshrc files
+# I've found over the net. Also thanks for welp <welp at gentoo.org>, which from
+# I've stollen url-quote-magic and ewho with ecd functions, which were stolen
+# From ciaranm <ciaranm at ciaranm.org> ;)
+# Date - 24.07.2007
+
+
 local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
 export PYTHONRC="$HOME/.pythonrc"
 
