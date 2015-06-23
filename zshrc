@@ -156,7 +156,9 @@ function git_prompt() {
         git symbolic-ref --short HEAD 2>/dev/null | egrep -v "^master$" # branch name
         echo -n ":S`git stash list | wc -l | grep -v '^0$'`" # stash count
         echo -n ":U`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l | grep -v '^0$'`" # unpushed count
-        git status --porcelain | grep -q "." && ( echo -n ":`git status --porcelain | wc -l`" ) # changed file count
+        if git status --porcelain | grep -q "."; then
+            echo -n ":`git status --porcelain | grep '^[^?][^?]' | wc -l `/`git status --porcelain | wc -l`"
+        fi
         echo -n "]"
     fi
 }
