@@ -153,12 +153,28 @@ local detect_acl='$( [ `getfacl . | wc -l` -ne 7 ] && echo -n "[ACL]" )'
 function git_prompt() {
     if git status >/dev/null 2>&1; then # are we in a git directory?
         echo -n "["
-        git symbolic-ref --short HEAD 2>/dev/null | egrep -v "^master$" # branch name
-        echo -n ":S`git stash list | wc -l | grep -v '^0$'`" # stash count
-        echo -n ":U`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l | grep -v '^0$'`" # unpushed count
-        if git status --porcelain | grep -q "."; then
-            echo -n ":`git status --porcelain | grep '^[^?][^?]' | wc -l `/`git status --porcelain | wc -l`"
+
+        BRANCH_NAME=`git symbolic-ref --short HEAD 2>/dev/null`
+        if [ "$BRANCH_NAME" != "master" ]; then
+          echo -n "$BRANCH_NAME:"
         fi
+
+        STASH_COUNT=`git stash list | wc -l`
+        if [ "$STASH_COUNT" != "0" ]; then
+          echo -n "S$STASH_COUNT:"
+        fi
+
+        UNPUSHED_COUNT=`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l`
+        if [ "$UNPUSHED_COUNT" != "0" ]; then
+            echo -n "U${UNPUSHED_COUNT}:"
+        fi
+
+        CHANGED_FILES=`git status --porcelain | wc -l`
+        if [ "$CHANGED_FILES" != "0" ]; then
+            CHANGED_TRACKED_FILES=`git status --porcelain | grep '^[^?][^?]' | wc -l`
+            echo -n "$CHANGED_TRACKED_FILES/$CHANGED_FILES"
+        fi
+
         echo -n "]"
     fi
 }
