@@ -97,6 +97,8 @@ setopt nonomatch
 unsetopt equals
 
 # If there is Nmap installed but it has no cap_net_raw for me.
+if nvim --version >/dev/null; then alias vim=nvim; fi
+
 if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
   export NMAP_PRIVILEGED="1"
 else
