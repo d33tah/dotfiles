@@ -98,7 +98,13 @@ setopt nonomatch
 unsetopt equals
 
 # If there is Nmap installed but it has no cap_net_raw for me.
-if nvim --version >/dev/null 2>&1; then alias vim=nvim; fi
+if nvim --version >/dev/null 2>&1; then
+  alias vim=nvim
+  export EDITOR=`which nvim`
+else
+  export EDITOR=`which vim`
+  vim --version >/dev/null 2>&1 || echo "No vim found."
+fi
 
 if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
   export NMAP_PRIVILEGED="1"
@@ -243,9 +249,6 @@ WATCHFMT="User %n has %a on tty %l at %T %W"
 export HISTSIZE=5000000
 export HISTFILE=~/.history_zsh
 export SAVEHIST=4000000
-
-# of course
-export EDITOR="/usr/bin/vim"
 
 # Key Bindings
 bindkey '\e[1~' beginning-of-line
