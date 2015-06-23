@@ -18,6 +18,8 @@ echo "Jestes w screenie"
 fi
 
 export LC_ALL=en_US.UTF-8
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 source ~/virtualenv/bin/activate
 
 bindkey "5C" forward-word
@@ -116,10 +118,11 @@ fi
 
 # d33tah's prompt. Example:
 #
-# [ACL][x:S8:U1][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
+# (virtualenv)[ACL][x:S8:U1][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
 
 # Explanation:
 #
+# (virtualenv) is the current python virtualenv.
 # [ACL] shows when there might be any interesting ACL entries for this directory.
 # [x:S8:U1] says that I'm on a git branch x with 8 stashes and 1 unpushed commit.
 # The time is there in order to be able to tell how long the commands ran.
@@ -130,6 +133,21 @@ fi
 # there was no interesting information found.
 
 setopt PROMPT_SUBST
+
+
+
+function virtualenv_prompt() {
+
+  if [ "$VIRTUAL_ENV" != "" ]; then
+    if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
+        # special case for Aspen magic directories
+        # see http://www.zetadev.com/software/aspen/
+        echo "[`basename \`dirname \"$VIRTUAL_ENV\"\``]"
+    else
+        echo "(`basename \"$VIRTUAL_ENV\"`)"
+    fi
+  fi
+}
 
 local detect_acl='$( [ `getfacl . | wc -l` -ne 7 ] && echo -n "[ACL]" )'
 
@@ -144,7 +162,7 @@ local git_detect='git status >/dev/null 2>&1'
 
 local git_prompt='$( '${git_detect}' && ( echo -n "[`'${git_current_branch}'`:S`'${git_stashes}'`:U`'${git_unpushed}'`]" ) )'
 
-export PS1="${detect_acl}${git_prompt}$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
+export PS1='$( virtualenv_prompt )'"${detect_acl}${git_prompt}$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
