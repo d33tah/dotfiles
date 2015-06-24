@@ -194,7 +194,7 @@ function git_prompt() {
           echo -n "S$STASH_COUNT:"
         fi
 
-        local UNPUSHED_COUNT=`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l`
+        local UNPUSHED_COUNT=`git log --format=oneline $(git unpushed-range 2>/dev/null) 2>/dev/null | wc -l`
         if [ "$UNPUSHED_COUNT" != "0" ]; then
             echo -n "U${UNPUSHED_COUNT}:"
         fi
