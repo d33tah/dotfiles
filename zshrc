@@ -126,6 +126,11 @@ else
   echo "WARNING: No Nmap with cap_net_raw in \$PATH!" >&2
 fi
 
+
+if hub --version >/dev/null 2>&1; then
+    alias git=hub
+fi
+
 # Set special PS1 colors for some of my boxes.
 if [ "$SALTED_HOSTNAME_MD5" == "793e4a1cceaa5571857b2c3c18955758" ]; then
   local COLOR=${YELLOW}
