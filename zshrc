@@ -203,7 +203,7 @@ function git_prompt() {
         if [ "$CHANGED_FILES" != "0" ]; then
             local CHANGED_TRACKED_FILES=`git status --porcelain | grep '^[^?][^?]' | wc -l`
             echo -n "$CHANGED_TRACKED_FILES/$CHANGED_FILES"
-            local TO_BE_COMMITED=`git status --porcelain | grep '^[A|M]' | wc -l`
+            local TO_BE_COMMITED=`git status --porcelain | grep '^[A|M|D|R]' | wc -l`
             if [ "$TO_BE_COMMITED" != "0" ]; then
                 echo -n "/${COLOR}$TO_BE_COMMITED${NORMAL}"
             fi
