@@ -143,15 +143,21 @@ fi
 
 # d33tah's prompt. Example:
 #
-# (virtualenv)[ACL][x:S8:U1:2][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
+# (virtualenv)[ACL][x:S8:U1:2/3/1][15:06:08][~/workspace/nmap/nmap-exp/d33tah/nmap-nsock-scan][1]$
 
 # Explanation:
 #
 # (virtualenv) is the current python virtualenv.
+#
 # [ACL] shows when there might be any interesting ACL entries for this directory.
-# [x:S8:U1:2] says that I'm on a git branch x with 8 stashes, 1 unpushed commit and 2 files shown by --git-status.
+#
+# [x:S8:U1:2] says that I'm on a git branch x with 8 stashes, 1 unpushed commit,
+# 2 tracked files changed, 3 changed files overall and 1 change ready to be committed.
+#
 # The time is there in order to be able to tell how long the commands ran.
+#
 # [1] is the error code of the previous command.
+#
 # If the user is root, the $ will become #.
 #
 # I tried to make the Git and ACL prompt display as little as possible when
