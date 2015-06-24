@@ -184,24 +184,24 @@ function git_prompt() {
     if git status >/dev/null 2>&1; then # are we in a git directory?
         echo -n "["
 
-        BRANCH_NAME=`git symbolic-ref --short HEAD 2>/dev/null`
+        local BRANCH_NAME=`git symbolic-ref --short HEAD 2>/dev/null`
         if [ "$BRANCH_NAME" != "master" ]; then
           echo -n "$BRANCH_NAME:"
         fi
 
-        STASH_COUNT=`git stash list | wc -l`
+        local STASH_COUNT=`git stash list | wc -l`
         if [ "$STASH_COUNT" != "0" ]; then
           echo -n "S$STASH_COUNT:"
         fi
 
-        UNPUSHED_COUNT=`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l`
+        local UNPUSHED_COUNT=`git log --format=oneline \"$(git unpushed-range 2>/dev/null)\" 2>/dev/null | wc -l`
         if [ "$UNPUSHED_COUNT" != "0" ]; then
             echo -n "U${UNPUSHED_COUNT}:"
         fi
 
-        CHANGED_FILES=`git status --porcelain | wc -l`
+        local CHANGED_FILES=`git status --porcelain | wc -l`
         if [ "$CHANGED_FILES" != "0" ]; then
-            CHANGED_TRACKED_FILES=`git status --porcelain | grep '^[^?][^?]' | wc -l`
+            local CHANGED_TRACKED_FILES=`git status --porcelain | grep '^[^?][^?]' | wc -l`
             echo -n "$CHANGED_TRACKED_FILES/$CHANGED_FILES"
         fi
 
