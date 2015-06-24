@@ -127,6 +127,7 @@ else
 fi
 
 
+local OLD_GIT=`which git`
 if hub --version >/dev/null 2>&1; then
     alias git=hub
 fi
@@ -184,26 +185,26 @@ function git_prompt() {
     if git status >/dev/null 2>&1; then # are we in a git directory?
         echo -n "["
 
-        local BRANCH_NAME=`git symbolic-ref --short HEAD 2>/dev/null`
+        local BRANCH_NAME=`$OLD_GIT symbolic-ref --short HEAD 2>/dev/null`
         if [ "$BRANCH_NAME" != "master" ]; then
           echo -n "$BRANCH_NAME:"
         fi
 
-        local STASH_COUNT=`git stash list | wc -l`
+        local STASH_COUNT=`$OLD_GIT stash list | wc -l`
         if [ "$STASH_COUNT" != "0" ]; then
           echo -n "S$STASH_COUNT:"
         fi
 
-        local UNPUSHED_COUNT=`git log --format=oneline $(git unpushed-range 2>/dev/null) 2>/dev/null | wc -l`
+        local UNPUSHED_COUNT=`$OLD_GIT log --format=oneline $($OLD_GIT unpushed-range 2>/dev/null) 2>/dev/null | wc -l`
         if [ "$UNPUSHED_COUNT" != "0" ]; then
             echo -n "U${UNPUSHED_COUNT}:"
         fi
 
-        local CHANGED_FILES=`git status --porcelain | wc -l`
+        local CHANGED_FILES=`$OLD_GIT status --porcelain | wc -l`
         if [ "$CHANGED_FILES" != "0" ]; then
-            local CHANGED_TRACKED_FILES=`git status --porcelain | grep '^[^?][^?]' | wc -l`
+            local CHANGED_TRACKED_FILES=`$OLD_GIT status --porcelain | grep '^[^?][^?]' | wc -l`
             echo -n "$CHANGED_TRACKED_FILES/$CHANGED_FILES"
-            local TO_BE_COMMITED=`git status --porcelain | grep '^[A|M|D|R]' | wc -l`
+            local TO_BE_COMMITED=`$OLD_GIT status --porcelain | grep '^[A|M|D|R]' | wc -l`
             if [ "$TO_BE_COMMITED" != "0" ]; then
                 echo -n "/${COLOR}$TO_BE_COMMITED${NORMAL}"
             fi
