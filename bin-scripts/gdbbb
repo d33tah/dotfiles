@@ -7,5 +7,5 @@
 
 prog=$1
 shift
-echo gdb "$prog" -ex "break main" -ex "r $*"
+set -x
 gdb "$prog" -ex "break main" -ex "r $*"
