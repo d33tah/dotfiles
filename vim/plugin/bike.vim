@@ -185,6 +185,7 @@ command! BikeFindDef            call <SID>BikeFindDef()
 
 command! BikeRename             call <SID>BikeRename()
 command! -range BikeExtract     call <SID>BikeExtract('function')
+command! -range BikeExtractMethod     call <SID>BikeExtract('method')
 command! BikeUndo               call <SID>BikeUndo()
 
 "
