@@ -220,7 +220,13 @@ function git_prompt() {
     fi
 }
 
-export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$) ${NORMAL}")"
+function sudo_prompt() {
+    if SUDO_ASKPASS='/usr/bin/false' sudo -A true; then
+        echo "${BLINK}[SUDO]${NORMAL}";
+    fi
+}
+
+export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$)"'$( sudo_prompt )'" ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
