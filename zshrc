@@ -22,8 +22,6 @@ export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH
 export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
 alias nmapp='nmap --script="default,external,safe and not http-slowloris-check"'
 
-set -o vi
-
 alias killbg='for job in `jobs -l | egrep -o "([0-9][0-9]+)"`; do kill $job ; done'
 alias sort='LC_ALL=C sort'
 
