@@ -11,6 +11,7 @@
 	c1 = !sh -c \"cd ${GIT_PREFIX:-.} && git rev-list --all | tail -n1\"
 	d1 = !sh -c \"cd ${GIT_PREFIX:-.} && git diff `cd ${GIT_PREFIX:-.} && git c1 $1`.. $1\"
 	ds = !sh -c \"cd ${GIT_PREFIX:-.} && git d1 $1 | diffstat\"
+	cc = !sh -c \"cd ${GIT_PREFIX:-.} && git log --format=oneline | wc -l \"
 #[svn]
 #	authorsfile = /home/d33tah/.gitusers
 [branch]
