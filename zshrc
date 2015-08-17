@@ -96,6 +96,7 @@ bindkey "\e" backward-delete-word
 bindkey '^R' history-incremental-search-backward
 export WORDCHARS='*?_[]~\!#$%^<>|`@#$%^*()+?'
 
+setopt AUTO_PUSHD
 setopt notify correct
 setopt correctall autocd
 setopt short_loops
