@@ -306,3 +306,5 @@ alias shred-zero='shred -uvzn0'
 
 export AFL_SKIP_CPUFREQ=1
 export AFL_EXIT_WHEN_DONE=1
+
+alias datep="date | tr ' ' '-'"
