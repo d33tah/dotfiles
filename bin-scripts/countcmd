@@ -92,6 +92,8 @@ class CountCMD:
     def guess_from_filename(self):
         """Set the program mode based on its filename."""
         n = sys.argv[0].split(os.sep)[-1]
+        self.args.no_caption = True
+        self.args.integer = True
         if n == "avg":
             self.args.average = True
         elif n == "count":
@@ -102,6 +104,9 @@ class CountCMD:
             self.args.maximum = True
         elif n == "sum-col":
             self.args.sum = True
+        else:
+            self.args.no_caption = False
+            self.args.integer = False
 
     def post_parse_args(self):
         """Does any initialization that should be done after parsing the
