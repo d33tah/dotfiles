@@ -310,3 +310,4 @@ export AFL_EXIT_WHEN_DONE=1
 alias datep="date | tr ' ' '-'"
 
 export PYTHONSTARTUP=~/.pythonrc
+export SUDO_PROMPT="[sudo] password `whoami`@`hostname`: "
