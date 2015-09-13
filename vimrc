@@ -129,4 +129,4 @@ if getcwd() =~ '/nmap'
 "    set copyindent
 endif
 
-
+map <f6> :cn<ENTER>
