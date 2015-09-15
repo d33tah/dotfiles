@@ -9,9 +9,10 @@
 #
 # AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
 UNPUSHED_RANGE="$( git log --grep='git-svn-id' --format=oneline | head -n1 | cut -d' ' -f1 ).."
 if [ "X${UNPUSHED_RANGE}X" == "X..X" ]; then
-  UNPUSHED_RANGE="$( git log origin/master..HEAD --reverse --format=oneline | head -n1 | cut -d' ' -f1 )^.."
+  UNPUSHED_RANGE="$( git log origin/$CURRENT_BRANCH..HEAD --reverse --format=oneline | head -n1 | cut -d' ' -f1 )^.."
 fi
 
 echo $UNPUSHED_RANGE
