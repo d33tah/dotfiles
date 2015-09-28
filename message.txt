@@ -1,0 +1,29 @@
+Jacek "d33tah" Wielemborek
+
+XMPP: d33tah@jabbim.pl
+IRC: d33tah on IRC.freenode.net (I usually idle on #nmap
+     and #hackerspace-pl)
+
+OTR keys:
+
+    * XMPP: 5357B83F E11A7405 D5CDE1F3 2658EDD4 526534A1
+
+    * IRC:
+
+      1. irc.oftc.net:
+          994809FD 8DC3AFAA 66C6D553 CEE6A2B5 7B9F8C62
+
+      2. irc.freenode.net:
+          CA5410AD F40BBAF2 1A93412D DBEB028D 167A4187
+
+GPG key:
+
+    * Fingerprint:
+      6452 1861 5C63 92A3 F834  7695 6955 8B29 995C 946F
+
+    * Short ID 0x995C946F, long ID 69558B29995C946F. Never use short IDs:
+      http://yro.slashdot.org/story/11/12/27/0044242/ (this is 2011!)
+
+    * `echo $FINGERPRINT | xxd -r -p | base64` gives:
+      "ZFIYYVxjkqP4NHaVaVWLKZlclG8="
+

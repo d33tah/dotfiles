@@ -1,0 +1,6 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>d33tah - homepage</title>
+</head>
+<body>(the old homepage is available <a href="index-old.php">here</a>)<pre>
