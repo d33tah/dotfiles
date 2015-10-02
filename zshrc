@@ -128,7 +128,9 @@ fi
 
 local OLD_GIT=`which git`
 if hub --version >/dev/null 2>&1; then
-    alias git=hub
+    if ! git --version | grep -q hub; then
+      alias git=hub
+    fi
 fi
 
 # Set special PS1 colors for some of my boxes.
