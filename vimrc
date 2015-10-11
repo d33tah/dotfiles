@@ -130,3 +130,6 @@ if getcwd() =~ '/nmap'
 endif
 
 map <f6> :cn<ENTER>
+
+map q: <Nop>
+nnoremap Q <nop>
