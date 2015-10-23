@@ -222,7 +222,7 @@ function git_prompt() {
 }
 
 function sudo_prompt() {
-    if SUDO_ASKPASS='/usr/bin/false' sudo -A true; then
+    if SUDO_ASKPASS='/bin/false' sudo -A true >/dev/null 2>&1; then
         echo "${BLINK}[SUDO]${NORMAL}";
     fi
 }
