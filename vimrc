@@ -24,13 +24,6 @@ inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
 set runtimepath+=$HOME/.vim/vim-l9
 set runtimepath+=$HOME/.vim/neocomplcache
 
-let g:bike_exceptions = 1
-source ~/.vim/plugin/bike.vim
-map <F2> :BikeRename<CR>
-map <F3> :BikeExtractMethod<CR>
-map <F5> :BikeUndo<CR>
-
-
 let g:neocomplcache_enable_at_startup = 1
 
 set viminfo='100000,"100000
