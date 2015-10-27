@@ -234,7 +234,7 @@ function jobs_prompt() {
     fi
 }
 
-export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )$( jobs_prompt )%(!.#.$)"'$( sudo_prompt )'" ${NORMAL}")"
+export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )"'$( jobs_prompt )'"%(!.#.$)"'$( sudo_prompt )'" ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
