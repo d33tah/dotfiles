@@ -227,7 +227,14 @@ function sudo_prompt() {
     fi
 }
 
-export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )%(!.#.$)"'$( sudo_prompt )'" ${NORMAL}")"
+function jobs_prompt() {
+    local BG_PROCESSES=`jobs | wc -l`
+    if [ "$BG_PROCESSES" != "0" ]; then
+        echo -n "${BLINK}[`jobs | wc -l `FG]${NORMAL}"
+    fi
+}
+
+export PS1='$( virtualenv_prompt )'"${detect_acl}"'$( git_prompt )'"$(print "${GREY}[${COLOR}%*${GREY}][${COLOR}%~${GREY}]${COLOR}%(?..${BLINK}[%?]${COLOR} )$( jobs_prompt )%(!.#.$)"'$( sudo_prompt )'" ${NORMAL}")"
 
 #exporting colors
 export GREP_COLOR=31
