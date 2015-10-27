@@ -321,3 +321,6 @@ alias datep="date | tr ' ' '-'"
 export PYTHONSTARTUP=~/.pythonrc
 export SUDO_PROMPT="[sudo] password `whoami`@`hostname`: "
 export LD_LIBRARY_PATH=/home/d33tah/lib
+
+# Disable bell for less
+export PAGER='less -q'
