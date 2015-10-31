@@ -8,4 +8,4 @@ fi
 # User specific aliases and functions
 
 PS1='[\t][\w]\$ '
-PATH=~/bin:$PATH
+. ~/.shrc

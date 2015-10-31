@@ -1,0 +1,19 @@
+# common instructions for both bash and zshrc
+
+export PYTHONRC="$HOME/.pythonrc"
+
+export PYTHONIOENCODING=utf-8
+setopt NO_BEEP
+
+export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH
+export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
+alias nmapp='nmap --script="default,external,safe and not http-slowloris-check"'
+
+alias killbg='for job in `jobs -l | egrep -o "([0-9][0-9]+)"`; do kill $job ; done'
+alias sort='LC_ALL=C sort'
+
+if [[ $TERM == screen ]]; then
+echo "Jestes w screenie"
+fi
+
+export LC_ALL=en_US.UTF-8
