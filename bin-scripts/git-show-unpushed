@@ -3,6 +3,7 @@
 # Display information about unpushed git commits. Works with git-svn.
 # AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
+# NOTE: this doesn't handle newly-created branches.
 UNPUSHED_RANGE=`git unpushed-range`
 
 ( echo -e "\nFirst, take a look at the overall commit comments:\n"

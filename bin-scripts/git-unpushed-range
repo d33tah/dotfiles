@@ -9,6 +9,8 @@
 #
 # AUTHOR: Jacek Wielemborek, licensed under WTFPL.
 
+
+# NOTE: this doesn't handle newly-created branches.
 CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
 UNPUSHED_RANGE="$( git log --grep='git-svn-id' --format=oneline | head -n1 | cut -d' ' -f1 ).."
 if [ "X${UNPUSHED_RANGE}X" == "X..X" ]; then
