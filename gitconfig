@@ -17,6 +17,6 @@
 [branch]
 	autosetuprebase = always
 [push]
-	default = matching
+	default = current
 [url "git@github.com:"]
 	pushInsteadOf = https://github.com/
