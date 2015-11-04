@@ -1,6 +1,6 @@
 Jacek "d33tah" Wielemborek
 
-XMPP: d33tah@jabbim.pl
+XMPP: username: d, server: neko.im (antispam notation).
 IRC: d33tah on IRC.freenode.net (I usually idle on #nmap
      and #hackerspace-pl)
 
