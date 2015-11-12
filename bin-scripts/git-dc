@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Displays log message for a given commit and then shows its diff.
+#
+# Author: Jacek Wielemborek, licensed under WTFPL.
+
 git log "$1^..$1"
 echo
 git diff "$1^..$1"
