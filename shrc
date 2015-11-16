@@ -35,7 +35,7 @@ else
   vim --version >/dev/null 2>&1 || echo "No vim found."
 fi
 
-if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
+if nmap --version >/dev/null && getcap `which nmap` 2>/dev/null | grep -q cap_net_raw; then
   export NMAP_PRIVILEGED="1"
 else
   echo "WARNING: No Nmap with cap_net_raw in \$PATH!" >&2
