@@ -42,7 +42,6 @@ else
 fi
 
 
-local OLD_GIT=`which git`
 if hub --version >/dev/null 2>&1; then
     if ! git --version | grep -q hub; then
       alias git=hub

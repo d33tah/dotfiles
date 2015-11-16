@@ -14,6 +14,7 @@
 
 local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
 
+local OLD_GIT=`which git`
 . ~/.shrc
 setopt NO_BEEP
 
