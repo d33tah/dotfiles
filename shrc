@@ -3,7 +3,6 @@
 export PYTHONRC="$HOME/.pythonrc"
 
 export PYTHONIOENCODING=utf-8
-setopt NO_BEEP
 
 export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH
 export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
@@ -16,4 +15,60 @@ if [[ $TERM == screen ]]; then
 echo "Jestes w screenie"
 fi
 
+if [ -f ~/.github-token ]; then
+  source ~/.github-token
+fi
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+if [ -f ~/virtualenv/bin/activate ]; then
+    source ~/virtualenv/bin/activate
+fi
+
 export LC_ALL=en_US.UTF-8
+
+# If there is Nmap installed but it has no cap_net_raw for me.
+if nvim --version >/dev/null 2>&1; then
+  alias vim=nvim
+  export EDITOR=`which nvim`
+else
+  export EDITOR=`which vim`
+  vim --version >/dev/null 2>&1 || echo "No vim found."
+fi
+
+if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
+  export NMAP_PRIVILEGED="1"
+else
+  echo "WARNING: No Nmap with cap_net_raw in \$PATH!" >&2
+fi
+
+
+local OLD_GIT=`which git`
+if hub --version >/dev/null 2>&1; then
+    if ! git --version | grep -q hub; then
+      alias git=hub
+    fi
+fi
+
+alias mow='rlwrap espeak -v pl'
+alias nmap-quiet='nmap -Pn -n'
+alias shred-zero='shred -uvzn0'
+
+export AFL_SKIP_CPUFREQ=1
+export AFL_EXIT_WHEN_DONE=1
+
+alias datep="date | tr ' ' '-'"
+
+export PYTHONSTARTUP=~/.pythonrc
+export SUDO_PROMPT="[sudo] password `whoami`@`hostname`: "
+export LD_LIBRARY_PATH=/home/d33tah/lib
+
+# Disable bell for less
+export PAGER='less -q'
+
+function gen_words() {
+    LC_ALL="$1" aspell dump master  | iconv -f latin2 -t utf-8 | cut -d'/' -f1
+};
+
+function gen_pass() {
+    sort -R <( gen_words "pl" ) <( gen_words "en_US" ) | uniq | tail -n30
+}

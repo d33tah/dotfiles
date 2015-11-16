@@ -15,18 +15,10 @@
 local SALTED_HOSTNAME_MD5=$(echo 'saltysalt'`hostname` | md5sum | cut -f1 -d" ")
 
 . ~/.shrc
+setopt NO_BEEP
 
 bindkey "5C" forward-word
 bindkey "5D" backward-word
-
-if [ -f ~/.github-token ]; then
-  source ~/.github-token
-fi
-
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-if [ -f ~/virtualenv/bin/activate ]; then
-    source ~/virtualenv/bin/activate
-fi
 
 if [ "$SSH_CONNECTION" != "" ]; then
   if echo $TERM | grep -v 'screen' && ! screen -x -SU wrapper; then
@@ -47,14 +39,6 @@ CYAN=$'%{\e[0;36m%}'
 GREY=$'%{\e[1;30m%}'
 NORMAL=$'%{\e[0m%}'
 BLINK=$'%{\e[0;5m%}'
-
-function gen_words() {
-    LC_ALL="$1" aspell dump master  | iconv -f latin2 -t utf-8 | cut -d'/' -f1
-};
-
-function gen_pass() {
-    sort -R <( gen_words "pl" ) <( gen_words "en_US" ) | uniq | tail -n30
-}
 
 # completion
 autoload -U complist compinit promptinit tetris zcalc url-quote-magic colors
@@ -94,29 +78,6 @@ setopt auto_remove_slash
 setopt short_loops
 setopt nonomatch
 unsetopt equals
-
-# If there is Nmap installed but it has no cap_net_raw for me.
-if nvim --version >/dev/null 2>&1; then
-  alias vim=nvim
-  export EDITOR=`which nvim`
-else
-  export EDITOR=`which vim`
-  vim --version >/dev/null 2>&1 || echo "No vim found."
-fi
-
-if nmap --version >/dev/null && getcap `which nmap` | grep -q cap_net_raw; then
-  export NMAP_PRIVILEGED="1"
-else
-  echo "WARNING: No Nmap with cap_net_raw in \$PATH!" >&2
-fi
-
-
-local OLD_GIT=`which git`
-if hub --version >/dev/null 2>&1; then
-    if ! git --version | grep -q hub; then
-      alias git=hub
-    fi
-fi
 
 # Set special PS1 colors for some of my boxes.
 if [ "$SALTED_HOSTNAME_MD5" == "793e4a1cceaa5571857b2c3c18955758" ]; then
@@ -294,18 +255,3 @@ case $TERM in (xterm*)
 esac
 bindkey "\e[3~" delete-char
 
-alias mow='rlwrap espeak -v pl'
-alias nmap-quiet='nmap -Pn -n'
-alias shred-zero='shred -uvzn0'
-
-export AFL_SKIP_CPUFREQ=1
-export AFL_EXIT_WHEN_DONE=1
-
-alias datep="date | tr ' ' '-'"
-
-export PYTHONSTARTUP=~/.pythonrc
-export SUDO_PROMPT="[sudo] password `whoami`@`hostname`: "
-export LD_LIBRARY_PATH=/home/d33tah/lib
-
-# Disable bell for less
-export PAGER='less -q'
