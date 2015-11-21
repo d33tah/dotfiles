@@ -49,7 +49,7 @@ def getTerminalSize():
 (width, height) = getTerminalSize()
 remaining = width - 50
 
-table = [['Number', 'Start', 'End', 'Size', 'Description']]
+table_data = [['Number', 'Start', 'End', 'Size', 'Description']]
 devnull = open(os.devnull)
 fname = sys.argv[1]
 device = parted.device.Device(fname)
@@ -67,8 +67,10 @@ for p in partitions:
     start = p.geometry.start * blksize
     end = p.geometry.end * blksize
     size = end - start
-    table += [[str(number), h(start), h(end), h(size),
-               '\n'.join(textwrap.wrap(desc, remaining))]]
+    table_data += [[str(number), h(start), h(end), h(size),
+                   '\n'.join(textwrap.wrap(desc, remaining))]]
     #print("%s\t%s\t%s\t%s\t%s" % (number, h(start), h(end), h(size), desc))
 
-print(AsciiTable(table).table)
+table = AsciiTable(table_data)
+table.inner_row_border = True
+print(table.table)
