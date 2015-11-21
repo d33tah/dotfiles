@@ -11,7 +11,7 @@ import sys
 sys.path += ['/usr/lib64/python2.7/site-packages']
 import parted
 import humanize
-import prettytable
+from terminaltables import AsciiTable
 
 def h(i):
     return humanize.naturalsize(i)
@@ -48,7 +48,7 @@ def getTerminalSize():
 
 (width, height) = getTerminalSize()
 
-table = prettytable.PrettyTable(['Number', 'Start', 'End', 'Size', 'Description'])
+table = [['Number', 'Start', 'End', 'Size', 'Description']]
 devnull = open(os.devnull)
 fname = sys.argv[1]
 device = parted.device.Device(fname)
@@ -66,7 +66,7 @@ for p in partitions:
     start = p.geometry.start * blksize
     end = p.geometry.end * blksize
     size = end - start
-    table.add_row([str(number), h(start), h(end), h(size), str(desc)])
+    table += [[str(number), h(start), h(end), h(size), str(desc)]]
     #print("%s\t%s\t%s\t%s\t%s" % (number, h(start), h(end), h(size), desc))
 
-print(table)
+print(AsciiTable(table).table)
