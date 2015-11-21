@@ -46,31 +46,36 @@ def getTerminalSize():
         #except:
         #    cr = (25, 80)
     return int(cr[1]), int(cr[0])
-(width, height) = getTerminalSize()
-remaining = width - 50
 
-table_data = [['Number', 'Start', 'End', 'Size', 'Description']]
-devnull = open(os.devnull)
-fname = sys.argv[1]
-device = parted.device.Device(fname)
-blksize = device.sectorSize
-disk = parted.disk.Disk(device)
-partitions = disk.getLogicalPartitions() + disk.getPrimaryPartitions()
-partitions.sort(key=lambda p: p.number)
-for p in partitions:
-    p1 = subprocess.Popen(["dd", "skip=%d" % p.geometry.start,
-                            "if=%s" % fname, "bs=%d" % blksize],
-                          stdout=subprocess.PIPE, stderr=devnull)
-    desc = subprocess.check_output(["file", "-s", "-", "-b"],
-                                   stdin=p1.stdout).rstrip()
-    number = p.number
-    start = p.geometry.start * blksize
-    end = p.geometry.end * blksize
-    size = end - start
-    table_data += [[str(number), h(start), h(end), h(size),
-                   '\n'.join(textwrap.wrap(desc, remaining))]]
-    #print("%s\t%s\t%s\t%s\t%s" % (number, h(start), h(end), h(size), desc))
+class PartDump(object):
+    def run(self):
+        (width, height) = getTerminalSize()
+        remaining = width - 50
 
-table = AsciiTable(table_data)
-table.inner_row_border = True
-print(table.table)
+        table_data = [['Number', 'Start', 'End', 'Size', 'Description']]
+        devnull = open(os.devnull)
+        fname = sys.argv[1]
+        device = parted.device.Device(fname)
+        blksize = device.sectorSize
+        disk = parted.disk.Disk(device)
+        partitions = disk.getLogicalPartitions() + disk.getPrimaryPartitions()
+        partitions.sort(key=lambda p: p.number)
+        for p in partitions:
+            p1 = subprocess.Popen(["dd", "skip=%d" % p.geometry.start,
+                                    "if=%s" % fname, "bs=%d" % blksize],
+                                  stdout=subprocess.PIPE, stderr=devnull)
+            desc = subprocess.check_output(["file", "-s", "-", "-b"],
+                                           stdin=p1.stdout).rstrip()
+            number = p.number
+            start = p.geometry.start * blksize
+            end = p.geometry.end * blksize
+            size = end - start
+            table_data += [[str(number), h(start), h(end), h(size),
+                           '\n'.join(textwrap.wrap(desc, remaining))]]
+
+        table = AsciiTable(table_data)
+        table.inner_row_border = True
+        print(table.table)
+
+if __name__ == '__main__':
+    PartDump().run()
