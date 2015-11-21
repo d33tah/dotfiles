@@ -5,13 +5,14 @@
 Prints information about a disk.
 """
 
+import humanize
+from terminaltables import AsciiTable
 import subprocess
 import os
+import textwrap
 import sys
 sys.path += ['/usr/lib64/python2.7/site-packages']
 import parted
-import humanize
-from terminaltables import AsciiTable
 
 def h(i):
     return humanize.naturalsize(i)
@@ -45,8 +46,8 @@ def getTerminalSize():
         #except:
         #    cr = (25, 80)
     return int(cr[1]), int(cr[0])
-
 (width, height) = getTerminalSize()
+remaining = width - 50
 
 table = [['Number', 'Start', 'End', 'Size', 'Description']]
 devnull = open(os.devnull)
@@ -66,7 +67,8 @@ for p in partitions:
     start = p.geometry.start * blksize
     end = p.geometry.end * blksize
     size = end - start
-    table += [[str(number), h(start), h(end), h(size), str(desc)]]
+    table += [[str(number), h(start), h(end), h(size),
+               '\n'.join(textwrap.wrap(desc, remaining))]]
     #print("%s\t%s\t%s\t%s\t%s" % (number, h(start), h(end), h(size), desc))
 
 print(AsciiTable(table).table)
