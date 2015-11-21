@@ -14,9 +14,6 @@ import sys
 sys.path += ['/usr/lib64/python2.7/site-packages']
 import parted
 
-def h(i):
-    return humanize.naturalsize(i)
-
 # http://stackoverflow.com/a/566752/1091116
 def getTerminalSize():
     import os
@@ -48,18 +45,28 @@ def getTerminalSize():
     return int(cr[1]), int(cr[0])
 
 class PartDump(object):
-    def run(self):
+
+
+
+    def run(self, args):
         (width, height) = getTerminalSize()
         remaining = width - 50
 
         table_data = [['Number', 'Start', 'End', 'Size', 'Description']]
         devnull = open(os.devnull)
-        fname = sys.argv[1]
+        fname = args.path[0]
         device = parted.device.Device(fname)
         blksize = device.sectorSize
         disk = parted.disk.Disk(device)
         partitions = disk.getLogicalPartitions() + disk.getPrimaryPartitions()
         partitions.sort(key=lambda p: p.number)
+
+        if args.show_bytes:
+            h = lambda x: str(x)
+            remaining = width - 65
+        else:
+            h = lambda x: humanize.naturalsize(x)
+
         for p in partitions:
             p1 = subprocess.Popen(["dd", "skip=%d" % p.geometry.start,
                                     "if=%s" % fname, "bs=%d" % blksize],
@@ -78,4 +85,10 @@ class PartDump(object):
         print(table.table)
 
 if __name__ == '__main__':
-    PartDump().run()
+    import argparse
+    a = argparse.ArgumentParser()
+    a.add_argument('--show-bytes', help="Don't humanize the partition "
+                   "geometry numbers", action='store_true')
+    a.add_argument('path', nargs=1)
+    args = a.parse_args()
+    PartDump().run(args)
