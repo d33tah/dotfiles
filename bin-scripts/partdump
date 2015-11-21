@@ -11,7 +11,7 @@ import sys
 sys.path += ['/usr/lib64/python2.7/site-packages']
 import parted
 import humanize
-import texttable
+from terminaltables import AsciiTable
 
 def h(i):
     return humanize.naturalsize(i)
@@ -48,14 +48,15 @@ def getTerminalSize():
 
 (width, height) = getTerminalSize()
 
-table = texttable.Texttable(max_width=width)
-table.header(['Number', 'Start', 'End', 'Size', 'Description'])
+table = [['Number', 'Start', 'End', 'Size', 'Description']]
 devnull = open(os.devnull)
 fname = sys.argv[1]
 device = parted.device.Device(fname)
 blksize = device.sectorSize
 disk = parted.disk.Disk(device)
-for p in disk.getLogicalPartitions():
+partitions = disk.getLogicalPartitions() + disk.getPrimaryPartitions()
+partitions.sort(key=lambda p: p.number)
+for p in partitions:
     p1 = subprocess.Popen(["dd", "skip=%d" % p.geometry.start,
                             "if=%s" % fname, "bs=%d" % blksize],
                           stdout=subprocess.PIPE, stderr=devnull)
@@ -65,6 +66,7 @@ for p in disk.getLogicalPartitions():
     start = p.geometry.start * blksize
     end = p.geometry.end * blksize
     size = end - start
-    table.add_row([number, h(start), h(end), h(size), desc])
+    table += [[str(number), h(start), h(end), h(size), str(desc)]]
     #print("%s\t%s\t%s\t%s\t%s" % (number, h(start), h(end), h(size), desc))
-print(table.draw())
+
+print(AsciiTable(table).table)
