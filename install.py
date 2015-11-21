@@ -4,6 +4,7 @@ import sys
 import os
 import shutil
 
+EXCLUDED = ['requirements.txt']
 argv0 = os.path.abspath(sys.argv[0])
 
 # TODO:
@@ -24,19 +25,19 @@ def file_exists(path):
             pass
     return False
 
-for filename in os.listdir('.'):
-    if os.path.abspath(filename) == argv0 or filename.startswith('.'):
+for fn in os.listdir('.'):
+    if os.path.abspath(fn) == argv0 or fn.startswith('.') or fn in EXCLUDED:
         continue
     # Don't add a dot for bin-scripts files.
-    if filename not in ['bin-scripts']:
-        target = os.environ['HOME'] + os.sep + '.' + filename
+    if fn not in ['bin-scripts']:
+        target = os.environ['HOME'] + os.sep + '.' + fn
     else:
-        target = os.environ['HOME'] + os.sep + filename
+        target = os.environ['HOME'] + os.sep + fn
     print(target)
     if file_exists(target):
         new_target = target + "_"
         while file_exists(new_target):
             new_target = new_target + "_"
         shutil.move(target, new_target)
-    source = os.path.abspath(os.path.curdir) + os.sep + filename
+    source = os.path.abspath(os.path.curdir) + os.sep + fn
     os.symlink(source, target)
