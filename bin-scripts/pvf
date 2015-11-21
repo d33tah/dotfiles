@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Reads a file from $1 and wraps it around a filter specified by the remaining
+# command line arguments. The data flowing is measured on both ends using pv
+# with "in" and "out" captions.
+#
+# AUTHOR: Jacek Wielemborek, licensed under WTFPL.
+
+F=$1
+shift
+
+pv -cN in $F | $@ | pv -cN out
