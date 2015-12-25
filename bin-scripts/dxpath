@@ -6,5 +6,5 @@ import sys
 xpath = sys.argv[1]
 t = lxml.etree.parse(sys.stdin)
 l = t.xpath(xpath)
-s = lxml.etree.tostring(l[0], pretty_print=True)
-print(s)
+for i in l:
+    print(lxml.etree.tostring(i, pretty_print=True).strip())
