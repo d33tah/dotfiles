@@ -38,11 +38,16 @@ for line in sys.stdin:
 counts_sorted = sorted(counts, key=lambda x: x[1])
 max_count = float(counts_sorted[-1][1])
 
+def safe_log(a, b):
+    if float(a) == float(b):
+        return 1.0
+    return math.log(a, b)
+
 map_str = open(sys.argv[1]).read()
 style_append = ""
 for x in counts_sorted:
   country = x[0].lower()
-  color = int(math.log(x[1], max_count) * 255)
+  color = int(safe_log(x[1], max_count) * 255)
   style_append += " .%s { fill: #%02x0000; }" % (country, color)
   title_found_list = re.findall(COUNTRY_TITLE_REGEX % country, map_str)
   if len(title_found_list) > 0:
