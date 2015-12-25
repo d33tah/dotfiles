@@ -71,3 +71,7 @@ function gen_words() {
 function gen_pass() {
     sort -R <( gen_words "pl" ) <( gen_words "en_US" ) | uniq | tail -n30
 }
+
+export GOPATH=$HOME/GOPATH
+export GOROOT=~/workspace/go
+export PATH=~/workspace/go/bin:$PATH::$GOPATH/bin
