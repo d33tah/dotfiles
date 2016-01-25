@@ -2,6 +2,7 @@ import rlcompleter
 import readline
 import atexit
 import os
+import datetime
 
 readline.parse_and_bind("tab: complete")
 
