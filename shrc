@@ -1,3 +1,4 @@
+#!/bin/sh
 # common instructions for both bash and zshrc
 
 export PYTHONRC="$HOME/.pythonrc"
