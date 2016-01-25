@@ -14,4 +14,11 @@ def save_history(historyPath=historyPath):
 if os.path.exists(historyPath):
     readline.read_history_file(historyPath)
 
+class PS1:
+    def __str__(self):
+        return '[%s]>>> ' % datetime.datetime.now().strftime("%H:%M:%S")
+
+import sys
+sys.ps1 = PS1()
+
 atexit.register(save_history)
