@@ -1,4 +1,4 @@
-session = /home/d/.rtorrent-session
+session = /home/d33tah/.rtorrent-session
 dht = on
 dht_port = 6881
 port_range = 49164-49164
