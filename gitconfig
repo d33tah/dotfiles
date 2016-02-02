@@ -20,3 +20,8 @@
 	default = current
 [url "git@github.com:"]
 	pushInsteadOf = https://github.com/
+[git-up "fetch"]
+	all = true
+ # https://lists.torproject.org/pipermail/tor-dev/2016-February/010350.html
+[transfer]
+	fsckobjects = true
