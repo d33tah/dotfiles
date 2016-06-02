@@ -5,7 +5,7 @@ export PYTHONRC="$HOME/.pythonrc"
 
 export PYTHONIOENCODING=utf-8
 
-export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH
+export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$PATH:$PATH/.local/bin
 export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
 alias nmapp='nmap --script="default,external,safe and not http-slowloris-check"'
 
