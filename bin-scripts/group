@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+
+import csv
+import sys
+import argparse
+from collections import OrderedDict
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--delimiter', default=',')
+parser.add_argument('--header', action='store_true')
+parser.add_argument('--distinct', action='store_true')
+parser.add_argument('colspec', nargs='+')
+args = parser.parse_args()
+
+r = csv.reader(sys.stdin, delimiter=args.delimiter)
+colnums = []
+if args.header:
+    h = next(r)
+    for colname in args.colspec:
+        try:
+            colnums += [h.index(colname)]
+        except ValueError:
+            sys.exit("ERROR: expected header column %s not found!"
+                     % repr(colname))
+else:
+    # minus one for natural ordering (starting with 1)
+    colnums = [int(x) - 1 for x in args.colspec]
+
+d = OrderedDict()
+
+for cols in r:
+    key = tuple([k for n, k in enumerate(cols) if n in colnums])
+    rest = tuple([k for n, k in enumerate(cols) if n not in colnums])
+    if args.distinct:
+        if key not in d:
+            d[key] = set()
+        d[key].add(rest)
+    else:
+        if key not in d:
+            d[key] = 0
+        d[key] += 1
+
+w = csv.writer(sys.stdout)
+for key in d:
+    if args.distinct:
+        count = len(d[key])
+    else:
+        count = d[key]
+    w.writerow(key + (count,))
