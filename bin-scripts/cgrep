@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+"""
+cgrep
+
+Greps standard input for patterns given as arguments, giving each argument
+a separate color. Useful for watching lengthy logs for multiple interesting
+patterns.
+
+Example: dmesg | cgrep ':' 'a'
+
+Will color dmesg's output - all colons using the red color and all 'a' letters
+with a green color.
+"""
+
+import subprocess
+import sys
+
+last_stdin = subprocess.PIPE
+n = 30
+first_process = None
+for x in sys.argv[1:]:
+    n += 1
+    last_process = subprocess.Popen(["egrep",
+                                     "--line-buffered",
+                                     "--color=always",
+                                     x + "|"],
+                                    env={'GREP_COLOR': '01;%d' % n},
+                                    stdin=last_stdin,
+                                    stdout=subprocess.PIPE)
+
+    if not first_process:
+        first_process = last_process
+    last_stdin = last_process.stdout
+
+for line in sys.stdin:
+    first_process.stdin.write(line)
+    first_process.stdin.flush()
+    sys.stdout.write(last_process.stdout.readline())
+    sys.stdout.flush()
