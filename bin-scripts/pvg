@@ -1,3 +1,3 @@
 #!/bin/sh
 
-pv -d `pgrep $1 || pgrep -f $1`
+pv -d `pgrep -x -U `id -u` pv || pgrep -x pv || pgrep pv || pgrep -f pv`
