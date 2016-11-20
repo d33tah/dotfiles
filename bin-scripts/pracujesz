@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+from subprocess import call, check_output, PIPE
+from time import sleep
+from os import path
+from dbus import SessionBus, exceptions as dbus_exceptions
+
+def current_window():
+    return check_output(['xdotool', 'getwindowfocus', 'getwindowname'])
+
+def get_tasks(active_only=False):
+    bus = SessionBus()
+    obj = bus.get_object('org.kde.ktimetracker', '/KTimeTracker')
+    ret = ()
+    for name in obj.tasks():
+        add = {'name': str(name), 'active': obj.isTaskNameActive(name)}
+        if (add['active'] and active_only) or not active_only:
+            ret += (add,)
+    return ret
+
+def main(keywords):
+    while True:
+        win = current_window()
+        found = tuple(word for word in keywords if word.lower() in win.lower())
+        msg = 'Pracujesz %s: %s' % (repr(found), win)
+        try:
+            active_tasks = get_tasks(active_only=True)
+        except dbus_exceptions.DBusException:
+            msg += '\nktimetracker off'
+            call(['/usr/bin/notify-send', msg])
+        if found and not active_tasks:
+            call(['/usr/bin/notify-send', msg])
+        sleep(10)
+
+if __name__ == '__main__':
+    keywords = [k.strip() for k in
+                open(path.expanduser('~/.pracujesz-keywords')).readlines()]
+    main(keywords)
