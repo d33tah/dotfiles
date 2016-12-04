@@ -1,12 +1,16 @@
 Jacek "d33tah" Wielemborek
 
 XMPP: username: d, server: neko.im (antispam notation).
+I also use XMPP over d33tah on gmail and jabbim.com servers.
+
 IRC: d33tah on IRC.freenode.net (I usually idle on #nmap
      and #hackerspace-pl)
 
 OTR keys:
 
     * XMPP: 5357B83F E11A7405 D5CDE1F3 2658EDD4 526534A1
+    * XMPP - laptop: BA49594A A6FD9CA3 B313CBB6 BCBFA777 A7971DE0
+      (same XMPP address)
 
     * IRC:
 
