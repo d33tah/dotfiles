@@ -18,6 +18,7 @@
 	autosetuprebase = always
 [push]
 	default = current
+	followTags = true
 [url "git@github.com:"]
 	pushInsteadOf = https://github.com/
 [git-up "fetch"]
@@ -25,3 +26,5 @@
  # https://lists.torproject.org/pipermail/tor-dev/2016-February/010350.html
 [transfer]
 	fsckobjects = true
+[commit]
+	verbose = true
