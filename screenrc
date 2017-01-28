@@ -18,3 +18,4 @@ shell zsh
 
 # make scrolling work better
 termcapinfo xterm* ti@:te@
+altscreen on
