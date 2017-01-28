@@ -5,7 +5,7 @@ export PYTHONRC="$HOME/.pythonrc"
 
 export PYTHONIOENCODING=utf-8
 
-export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$HOME/.local/bin:$PATH
+export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/workspace/0_src/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
 export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
 alias nmapp='nmap --script="default,external,safe and not http-slowloris-check"'
 
