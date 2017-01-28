@@ -25,6 +25,6 @@
 	all = true
  # https://lists.torproject.org/pipermail/tor-dev/2016-February/010350.html
 [transfer]
-	fsckobjects = true
+	fsckobjects = false
 [commit]
 	verbose = true
