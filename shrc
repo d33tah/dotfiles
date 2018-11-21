@@ -8,6 +8,7 @@ export PYTHONIOENCODING=utf-8
 export PATH=$HOME/.nmap:$HOME/bin-scripts:$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/workspace/0_src/esp-open-sdk/xtensa-lx106-elf/bin:$PATH
 export MANPATH=`manpath`:$HOME/.nmap/docs # add a symlink to man1 there
 alias nmapp='nmap --script="default,external,safe and not http-slowloris-check"'
+alias nconf='./configure --without-ndiff --without-zenmap  --without-nping --without-ncat --without-nmap-update'
 
 alias killbg='for job in `jobs -l | egrep -o "([0-9][0-9]+)"`; do kill $job ; done'
 alias sort='LC_ALL=C sort'
@@ -74,6 +75,6 @@ function gen_pass() {
 }
 
 export GOPATH=$HOME/GOPATH
-export GOROOT=~/workspace/go
-export PATH=~/workspace/go/bin:$PATH::$GOPATH/bin
+export GOROOT=~/.GOROOT
+export PATH=~/workspace/go/bin:$PATH::$GOPATH/bin:/home/d33tah/workspace/src/osxcross/target/bin
 export PKG_CONFIG_PATH=$HOME/lib/pkgconfig
