@@ -15,3 +15,5 @@ PROMPT='%{$fg_bold[red]%}[%*] $(git_prompt_info) %{$fg_bold[green]%}%p%{$reset_c
 }
 
 source ~/.shrc
+
+bindkey \^U backward-kill-line
