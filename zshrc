@@ -1,7 +1,7 @@
 ZSH_THEME="linuxonly"
 ZSH=$HOME/.oh-my-zsh
 
-plugins=(git cp colorized colored-man compleat copyfiles copydir extract screen debian history-substring-search zsh-syntax-highlighting gitfast git-extras git-flow jsontools python vagrant)
+plugins=(git cp compleat copydir extract screen debian history-substring-search gitfast git-extras git-flow jsontools python vagrant)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -17,3 +17,5 @@ PROMPT='%{$fg_bold[red]%}[%*] $(git_prompt_info) %{$fg_bold[green]%}%p%{$reset_c
 source ~/.shrc
 
 bindkey \^U backward-kill-line
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

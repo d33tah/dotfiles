@@ -80,3 +80,7 @@ export PATH=~/workspace/go/bin:$PATH::$GOPATH/bin:/home/d33tah/workspace/src/osx
 export PKG_CONFIG_PATH=$HOME/lib/pkgconfig
 
 P=~/workspace/profound
+H=~/workspace/hakierspejs
+
+alias vi=/usr/local/bin/nvim
+alias vim=/usr/local/bin/nvim

@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import humanize
+import sys
+
+print(humanize.intcomma(sys.stdin.readline().rstrip()))
