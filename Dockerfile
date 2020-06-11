@@ -7,9 +7,10 @@ USER d33tah
 WORKDIR /home/d33tah
 ADD ./user-init.sh .
 RUN ./user-init.sh
-ADD . dotfiles/
+ADD dotfiles dotfiles/
+ADD ./install.py ./post-install.sh ./
 RUN ls dotfiles/
-RUN cd dotfiles; ./install.py && ./post-install.sh
+RUN ./install.py && ./post-install.sh
 USER root
 RUN chsh -s /usr/bin/zsh d33tah
 ENTRYPOINT su - d33tah

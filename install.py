@@ -25,7 +25,7 @@ def file_exists(path):
             pass
     return False
 
-for fn in os.listdir('.'):
+for fn in os.listdir('dotfiles'):
     if os.path.abspath(fn) == argv0 or fn.startswith('.') or fn in EXCLUDED:
         continue
     # Don't add a dot for bin-scripts files.
@@ -39,5 +39,5 @@ for fn in os.listdir('.'):
         while file_exists(new_target):
             new_target = new_target + "_"
         shutil.move(target, new_target)
-    source = os.path.abspath(os.path.curdir) + os.sep + fn
+    source = os.path.abspath(os.path.curdir) + os.sep + 'dotfiles' + os.sep + fn
     os.symlink(source, target)
