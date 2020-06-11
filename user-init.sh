@@ -17,6 +17,7 @@ ln -sv  ~/.vimrc ~/.config/nvim/init.vim
 pip3 install \
     flake8 \
     python-language-server \
+    pyls-mypy \
     --user
 
 cargo install fd-find
