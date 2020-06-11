@@ -14,7 +14,10 @@ mkdir -pv ~/.config/nvim
 ln -sv  ~/.vim/autoload ~/.config/nvim/autoload
 ln -sv  ~/.vimrc ~/.config/nvim/init.vim
 
-pip3 install python-language-server
+pip3 install \
+    flake8 \
+    python-language-server \
+    --user
 
 cargo install fd-find
 cargo install ripgrep

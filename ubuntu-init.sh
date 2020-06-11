@@ -20,7 +20,6 @@ apt-get install \
     wget \
     zsh \
     -y
-chsh -s /usr/bin/zsh
 
 # nice to have, not critical
 apt-get install \
