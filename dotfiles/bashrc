@@ -8,6 +8,7 @@ fi
 # User specific aliases and functions
 
 PS1='[\t][\w]\$ '
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 . ~/.shrc
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
