@@ -20,5 +20,10 @@ pip3 install \
     pyls-mypy \
     --user
 
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash /dev/stdin -y
+source $HOME/.cargo/env
+
 cargo install fd-find
 cargo install ripgrep
+
+rustup component add rls rust-analysis rust-src

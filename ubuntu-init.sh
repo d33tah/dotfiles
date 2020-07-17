@@ -39,3 +39,4 @@ apt-file update
 # maybe not necessarily a great idea?
 setcap cap_net_raw,cap_net_admin,cap_net_bind_service+eip /usr/bin/nmap
 
+curl https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz | tar zxf - -C /usr/local
