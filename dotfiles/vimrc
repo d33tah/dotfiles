@@ -1,5 +1,5 @@
 ""                        'visualbell' 'vb' 'novisualbell' 'novb' beep
-""'visualbell' 'vb'       boolean (default off)  
+""'visualbell' 'vb'       boolean (default off)
 ""                        global
 ""        Use visual bell instead of beeping.  Also see 'errorbells'.
 set visualbell t_vb=
@@ -17,14 +17,14 @@ colorscheme ron
 syntax on
 
 if v:version > 702
-    ""'colorcolumn' 'cc'      string  (default "")                                 
+    ""'colorcolumn' 'cc'      string  (default "")
     ""                        local to window
     ""        'colorcolumn' is a comma separated list of screen columns that are
     ""        highlighted with ColorColumn hl-ColorColumn.  Useful to align
     ""        text.  Will make screen redrawing slower.
     ""        The screen column can be an absolute number, or a number preceded with
-    ""        '+' or '-', which is added to or subtracted from 'textwidth'. 
-    ""        
+    ""        '+' or '-', which is added to or subtracted from 'textwidth'.
+    ""
     ""                :set cc=+1  " highlight column after 'textwidth'
     ""                :set cc=+1,+2,+3  " highlight three columns after 'textwidth'
     ""                :hi ColorColumn ctermbg=lightgrey guibg=lightgrey
@@ -42,13 +42,13 @@ endif
 ""'number' 'nu'           boolean (default off)
 ""                        local to window
 ""        Print the line number in front of each line.  When the 'n' option is
-""        excluded from 'cpoptions' a wrapped line will not use the column of  
-""        line numbers.                                                    
+""        excluded from 'cpoptions' a wrapped line will not use the column of
+""        line numbers.
 ""        Use the 'numberwidth' option to adjust the room for the line number.
 ""        When a long, wrapped line doesn't start with the first character, '-'
 ""        characters are put before the number.
 ""        For highlighting see hl-LineNr, hl-CursorLineNr, and the
-""        :sign-define "numhl" argument.                                   
+""        :sign-define "numhl" argument.
 set number
 
 ""                                                'shiftwidth' 'sw'
@@ -81,8 +81,8 @@ set ts=4
 
 ""                                 'expandtab' 'et' 'noexpandtab' 'noet'
 ""'expandtab' 'et'        boolean (default off)
-""                        local to buffer                                     
-""        In Insert mode: Use the appropriate number of spaces to insert a    
+""                        local to buffer
+""        In Insert mode: Use the appropriate number of spaces to insert a
 ""        <Tab>.  Spaces are used in indents with the '>' and '<' commands and
 ""        when 'autoindent' is on.  To insert a real tab when 'expandtab' is
 ""        on, use CTRL-V<Tab>.  See also :retab and ins-expandtab.
@@ -117,6 +117,9 @@ set viminfo='100000,"100000
 """" <LSP>
 call plug#begin('~/.vim/plugged')
 :Plug 'neovim/nvim-lsp'
+:Plug 'junegunn/fzf.vim'
+:Plug 'mhinz/vim-signify'
+:Plug 'tpope/vim-fugitive'
 call plug#end()
 
 set omnifunc=lsp#omnifun
@@ -124,7 +127,10 @@ set omnifunc=lsp#omnifun
 lua<<
     local status, nvim_lsp = pcall(require, "nvim_lsp")
     if(status) then
+        nvim_lsp.rls.setup{}
+        nvim_lsp.yamlls.setup{}
         nvim_lsp.pyls.setup{}
+        nvim_lsp.gopls.setup{}
     end
 .
 
@@ -133,7 +139,9 @@ set completeopt=menuone
 """" Podmapuj F4=autocomplete
 inoremap <silent> <F4> <C-x><C-o>
 """" Włącz autocomplete LSP dla Pythona
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+set omnifunc=v:lua.vim.lsp.omnifunc
+"autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
 """" </LSP>
 
 " https://stackoverflow.com/q/3538785/1091116
@@ -152,3 +160,9 @@ nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> <F5>    <cmd>lua vim.lsp.buf.formatting()<CR>
+
+" https://vim.fandom.com/wiki/Highlight_unwanted_spaces
+highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+match ExtraWhitespace /\s\+$/
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
