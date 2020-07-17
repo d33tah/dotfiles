@@ -75,7 +75,6 @@ function gen_pass() {
 }
 
 export GOPATH=$HOME/GOPATH
-export GOROOT=~/.GOROOT
 export PATH=~/workspace/go/bin:$PATH::$GOPATH/bin:/home/d33tah/workspace/src/osxcross/target/bin
 export PKG_CONFIG_PATH=$HOME/lib/pkgconfig
 
