@@ -166,3 +166,5 @@ nnoremap <silent> <F5>    <cmd>lua vim.lsp.buf.formatting()<CR>
 highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 match ExtraWhitespace /\s\+$/
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
+set guicursor=
