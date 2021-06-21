@@ -36,11 +36,11 @@ class Pingg(object):
         if curr_seq != self.last_seq + 1:
             # we've found the gap
             for i in range(curr_seq - self.last_seq - 1):
-                before_seq = line[:line.find(b(" icmp_seq="))]
+                before_seq = line[:line.find(b(" icmp_seq="))].decode()
                 missing_seq = self.last_seq + i + 1
                 to_print = ("%s icmp_seq=%d ttl=?? " +
                             "time=??? (DROP)") % (before_seq, missing_seq)
-                print(to_print.decode('ascii'))
+                print(to_print)
         self.last_seq = curr_seq
 
     def main(self):
