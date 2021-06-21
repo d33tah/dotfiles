@@ -117,7 +117,8 @@ set viminfo='100000,"100000
 """" <LSP>
 call plug#begin('~/.vim/plugged')
 :Plug 'neovim/nvim-lsp'
-:Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 :Plug 'mhinz/vim-signify'
 :Plug 'tpope/vim-fugitive'
 call plug#end()
@@ -129,8 +130,13 @@ lua<<
     if(status) then
         nvim_lsp.rls.setup{}
         nvim_lsp.yamlls.setup{}
-        nvim_lsp.pyls.setup{}
+        nvim_lsp.tsserver.setup{}
+        nvim_lsp.flow.setup{}
+        nvim_lsp.bashls.setup{}
+        nvim_lsp.dockerls.setup{}
         nvim_lsp.gopls.setup{}
+        nvim_lsp.pyls.setup{}
+        nvim_lsp.html.setup{}
     end
 .
 
@@ -168,3 +174,8 @@ match ExtraWhitespace /\s\+$/
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=0
 set guicursor=
+
+
+let g:LanguageClient_serverCommands = {
+    \ 'html': ['html-languageserver', '--stdio'],
+    \ }

@@ -54,7 +54,7 @@ class Pingg(object):
                 print(line[:-1].decode('ascii'))
             except KeyboardInterrupt:
                 p.send_signal(signal.SIGINT)
-                print(p.stdout.read())
+                print(p.stdout.read().decode())
                 break
 
 if __name__ == "__main__":

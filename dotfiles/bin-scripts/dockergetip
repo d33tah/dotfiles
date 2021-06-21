@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -euo pipefail
+
+sudo docker inspect "$1" | jq -r '.[0].NetworkSettings.Networks[].IPAddress'

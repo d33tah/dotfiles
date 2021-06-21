@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+
+size=$(aws s3 ls "$1" | awk '{ print $3 }')
+if s5cmd >/dev/null 2>/dev/null; then
+    s5cmd cat "$1" | pv -ptebar -s $size
+else
+    aws s3 cp "$1" - | pv -ptebar -s $size
+fi

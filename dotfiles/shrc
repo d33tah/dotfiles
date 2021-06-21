@@ -81,6 +81,33 @@ export PATH=$PATH:/usr/local/go/bin
 
 P=~/workspace/profound
 H=~/workspace/hakierspejs
+W=~/workspace
 
 alias vi=/usr/local/bin/nvim
 alias vim=/usr/local/bin/nvim
+function zlib_decompress() {
+    python -c 'open("/dev/stdout", "wb").write(__import__("zlib").decompress(open("/dev/stdin", "rb").read()))'
+}
+
+function pyproject() {
+    echo -e "[tool.black]\nline-length = 79\ntarget-version = ['py37']" > pyproject.toml
+}
+
+function tstostr() {
+    python3 -c '[
+        print(
+            line.rstrip(),
+            "\t",
+            __import__(
+                "datetime"
+            ).datetime.fromtimestamp(
+                int(
+                    __import__("re").findall(
+                        "\d{10}",
+                        line.rstrip()
+                    )[0]
+                )
+            )
+        ) for line in __import__("sys").stdin
+    ]'
+}
