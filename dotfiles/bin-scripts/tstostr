@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+import sys
+import datetime
+import re
+
+for line in sys.stdin:
+    result = re.findall("\\d{10}", line.rstrip())
+    if not result:
+        sys.stdout.write(line)
+        continue
+    print(line.rstrip(), "\t", datetime.datetime.fromtimestamp(int(result[0])))
