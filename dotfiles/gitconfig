@@ -28,5 +28,12 @@
 	fsckobjects = false
 [commit]
 	verbose = true
+[merge]
+	tool = kdiff3
+
+
+[diff "pdf"]
+    textconv = pdfinfo
+    binary = True
 [init]
 	defaultBranch = main

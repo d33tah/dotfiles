@@ -93,21 +93,6 @@ function pyproject() {
     echo -e "[tool.black]\nline-length = 79\ntarget-version = ['py37']" > pyproject.toml
 }
 
-function tstostr() {
-    python3 -c '[
-        print(
-            line.rstrip(),
-            "\t",
-            __import__(
-                "datetime"
-            ).datetime.fromtimestamp(
-                int(
-                    __import__("re").findall(
-                        "\d{10}",
-                        line.rstrip()
-                    )[0]
-                )
-            )
-        ) for line in __import__("sys").stdin
-    ]'
+function dp() {
+    tmux split-pane -h watch -n0.1 -c "timeout 5s exa --tree \$( readlink /proc/$$/cwd ) --color=always --long --git --header || echo timed out"
 }

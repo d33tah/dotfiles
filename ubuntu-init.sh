@@ -10,6 +10,7 @@ apt-get install \
     libcap2-bin \
     libfuse2 \
     man-db \
+    npm \
     nmap \
     postgresql-client-common \
     python3-pip \
@@ -40,3 +41,5 @@ apt-file update
 setcap cap_net_raw,cap_net_admin,cap_net_bind_service+eip /usr/bin/nmap
 
 curl https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz | tar zxf - -C /usr/local
+
+npm install -g dockerfile-language-server-nodejs
