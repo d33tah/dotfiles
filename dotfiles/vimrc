@@ -116,16 +116,34 @@ set viminfo='100000,"100000
 
 """" <LSP>
 call plug#begin('~/.vim/plugged')
-:Plug 'neovim/nvim-lsp'
+
+Plug 'python-rope/ropevim'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+
+Plug 'neovim/nvim-lsp'
+Plug 'ThePrimeagen/refactoring.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 :Plug 'mhinz/vim-signify'
-:Plug 'tpope/vim-fugitive'
+:Plug 'github/copilot.vim', { 'branch': 'release' }
+"":Plug 'tpope/vim-fugitive'
+
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
 
 set omnifunc=lsp#omnifun
 
 lua<<
+
+require('refactoring').setup({})
+
+    -- empty setup using defaults: add your own options
+    require'nvim-tree'.setup {
+    }
+
     local status, nvim_lsp = pcall(require, "nvim_lsp")
     if(status) then
         nvim_lsp.rls.setup{}
@@ -138,6 +156,38 @@ lua<<
         nvim_lsp.pyls.setup{}
         nvim_lsp.html.setup{}
     end
+
+
+vim.api.nvim_set_keymap(
+    "v",
+    "<leader>F6",
+    ":lua require('refactoring').select_refactor()<CR>",
+    { noremap = true, silent = true, expr = false }
+)
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+require'nvim-treesitter.configs'.setup {
+  refactor = {
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "grr",
+      },
+    },
+  },
+}
+
+
 .
 
 """" Autocomplete = zwykłe menu, bez otwierania nowego bufora
@@ -167,6 +217,11 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <F5>    <cmd>lua vim.lsp.buf.formatting()<CR>
+vnoremap <F6>    <cmd>lua require('refactoring').select_refactor()<CR>
+
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
 
 " https://vim.fandom.com/wiki/Highlight_unwanted_spaces
 highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
