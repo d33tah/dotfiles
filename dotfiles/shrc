@@ -96,3 +96,10 @@ function pyproject() {
 function dp() {
     tmux split-pane -h watch -n0.1 -c "timeout 5s exa --tree \$( readlink /proc/$$/cwd ) --color=always --long --git --header || echo timed out"
 }
+
+function pvga() {
+    pgrep -x "$1" | xargs -n1 -I{} bash -c 'tmux split-window -l 1 pv -ptebar -d {}:3; tmux last-pane'
+}
+
+export GOROOT=/usr/local/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH 
